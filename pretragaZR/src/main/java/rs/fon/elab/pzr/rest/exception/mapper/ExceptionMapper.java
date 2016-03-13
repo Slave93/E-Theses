@@ -2,6 +2,7 @@ package rs.fon.elab.pzr.rest.exception.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,10 +13,13 @@ import rs.fon.elab.pzr.core.exception.AuthenticationException;
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
 import rs.fon.elab.pzr.core.exception.InvalidTicketException;
 import rs.fon.elab.pzr.core.exception.PzrRuntimeException;
+import rs.fon.elab.pzr.core.service.ThesisServiceImpl;
 import rs.fon.elab.pzr.rest.model.ErrorMessage;
 
 @ControllerAdvice
 public class ExceptionMapper {
+	
+	Logger logger = Logger.getLogger(ThesisServiceImpl.class);
 
 	@ResponseStatus(HttpStatus.OK)
 	@ExceptionHandler(AuthenticationException.class)
@@ -28,6 +32,7 @@ public class ExceptionMapper {
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseBody
 	ErrorMessage handleIvalidArguments(HttpServletRequest req, Exception ex) {
+		logger.error("ExceptionMapper has catched RuntimeException: ",ex);
 		return new ErrorMessage(ex.getMessage());
 	}
 
