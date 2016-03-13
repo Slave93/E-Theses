@@ -55,7 +55,7 @@
 	<!-- DB Schema Create/Upgrade -->
 	<bean id="databaseChangelog" class="liquibase.integration.spring.SpringLiquibase">
 		<property name="dataSource" ref="dataSource" />
-		<property name="changeLog" value="classpath:context/db/db.changelog.xml" />
+		<property name="changeLog" value="classpath:context/db/db.changelog-master.xml" />
 	</bean>
 
 </beans>

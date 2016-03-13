@@ -25,7 +25,7 @@ public class ExceptionMapper {
 	}	
 	 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler({InvalidArgumentException.class,PzrRuntimeException.class})
+	@ExceptionHandler(RuntimeException.class)
 	@ResponseBody
 	ErrorMessage handleIvalidArguments(HttpServletRequest req, Exception ex) {
 		return new ErrorMessage(ex.getMessage());
@@ -37,11 +37,5 @@ public class ExceptionMapper {
 	ErrorMessage handleUnauthorisedRequest(HttpServletRequest req, Exception ex) {
 		return new ErrorMessage(ex.getMessage());
 	}
-
-	/*@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(RuntimeException.class)
-	@ResponseBody
-	ErrorMessage handleBadRequest(HttpServletRequest req, Exception ex) {
-		return new ErrorMessage(ex.getLocalizedMessage());
-	}*/
+	
 }
