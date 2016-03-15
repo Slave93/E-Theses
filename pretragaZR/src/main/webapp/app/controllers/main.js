@@ -12,6 +12,9 @@ app.controller('MainController', ['$scope', '$rootScope', 'ThesisService', funct
                 $scope.noResults = true;
             }
             $scope.theses = response.content;
+            if($scope.theses.length ===0){
+            	$scope.noResults = true;
+            }
             $scope.totalPages = response.totalPages;
             $scope.pageNumber++;
         });
