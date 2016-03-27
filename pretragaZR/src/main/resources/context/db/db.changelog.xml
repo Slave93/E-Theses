@@ -5,14 +5,14 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet id="1.0.0" author="slavko.komarica">
-		<createTable tableName="subject">
+		<!-- createTable tableName="subject">
 			<column name="subject_id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
 			</column>
 			<column name="name" type="varchar(100)">
 				<constraints nullable="false" unique="true" />
 			</column>
-		</createTable>
+		</createTable-->
 
 
 		<createTable tableName="course">
@@ -40,7 +40,7 @@
 		</createTable>
 
 
-		<createTable tableName="subject_course">
+		<!--createTable tableName="subject_course">
 			<column name="subject_id" type="bigint">
 				<constraints nullable="false" />
 			</column>
@@ -55,7 +55,7 @@
 		<addForeignKeyConstraint baseColumnNames="course_id"
 			baseTableName="subject_course" constraintName="fk_subject_course_course"
 			onDelete="CASCADE" referencedColumnNames="course_id"
-			referencedTableName="course" />
+			referencedTableName="course" /-->
 
 		<createTable tableName="course_studies">
 			<column name="course_id" type="bigint">
@@ -126,19 +126,19 @@
 			</column>
 			<column name="defense_date" type="datetime" />
 			<column name="description" type="varchar(1000)" />
-			<column name="subject_id" type="bigint" />
+			<column name="course_id" type="bigint" />
 			<column name="file_id" type="bigint" />
 			<column name="user_id" type="bigint">
-				<constraints unique="true" />
+				<constraints unique="false" />
 			</column>
 			<column name="user_email" type="varchar(40)" />
 			<column name="user_name" type="varchar(65)" />
 			<column name="user_mentor_id" type="bigint" />
 			<column name="view_count" type="mediumint unsigned" />			
 		</createTable>
-		<addForeignKeyConstraint baseColumnNames="subject_id"
-			baseTableName="thesis" constraintName="fk_thesis_subject" onDelete="SET NULL"
-			referencedColumnNames="subject_id" referencedTableName="subject" />
+		<addForeignKeyConstraint baseColumnNames="course_id"
+			baseTableName="thesis" constraintName="fk_thesis_course" onDelete="SET NULL"
+			referencedColumnNames="course_id" referencedTableName="course" />
 		<addForeignKeyConstraint baseColumnNames="user_id"
 			baseTableName="thesis" constraintName="fk_thesis_user" onDelete="SET NULL"
 			referencedColumnNames="user_id" referencedTableName="user" />

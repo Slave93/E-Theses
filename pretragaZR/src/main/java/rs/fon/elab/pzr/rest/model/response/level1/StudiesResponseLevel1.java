@@ -3,6 +3,8 @@ package rs.fon.elab.pzr.rest.model.response.level1;
 import java.util.HashSet;
 import java.util.Set;
 
+import rs.fon.elab.pzr.rest.model.response.level2.CourseResponseLevel2;
+
 public class StudiesResponseLevel1 {
 	
 	protected Long id;
@@ -11,7 +13,7 @@ public class StudiesResponseLevel1 {
 	
 	protected String nameShort;
 	
-	protected Set<CourseResponseLevel1> courses = new HashSet<CourseResponseLevel1>();
+	protected Set<CourseResponseLevel2> courses = new HashSet<CourseResponseLevel2>();
 
 	public Long getId() {
 		return id;
@@ -37,11 +39,11 @@ public class StudiesResponseLevel1 {
 		this.nameShort = nameShort;
 	}
 
-	public Set<CourseResponseLevel1> getCourses() {
+	public Set<CourseResponseLevel2> getCourses() {
 		return courses;
 	}
 
-	public void setCourses(Set<CourseResponseLevel1> courses) {
+	public void setCourses(Set<CourseResponseLevel2> courses) {
 		this.courses = courses;
 	}	
 }

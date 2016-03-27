@@ -20,7 +20,7 @@ public class ThesisResponseLevel2 {
 
 	protected String description;
 
-	protected Long subjectId;
+	protected Long courseId;
 
 	protected Long userId;
 
@@ -84,14 +84,14 @@ public class ThesisResponseLevel2 {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}	
+
+	public Long getCourseId() {
+		return courseId;
 	}
 
-	public Long getSubjectId() {
-		return subjectId;
-	}
-
-	public void setSubjectId(Long subjectId) {
-		this.subjectId = subjectId;
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
 	}
 
 	public Long getUserId() {

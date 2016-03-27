@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import rs.fon.elab.pzr.core.model.Subject;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.model.User;
 
@@ -24,20 +23,16 @@ public interface ThesisRepository extends PagingAndSortingRepository<Thesis, Lon
 			+ ")")
 	public Page<Thesis> findByNameLikeAndTagsPagable(Pageable pageRequest,String thesisName,List<String> tagValues,Long matchLimit);
 	
-	@Query("SELECT distinct t from Thesis t where t.name like ?1 and t.subject.name = ?4 and ?3 <= ("
-			+ "SELECT count(tag2.id) from Thesis t2 left join t2.tags tag2 where t2.id=t.id and tag2.value in(?2)"
-			+ ")")
-	public Page<Thesis> findByNameLikeTagsAndSubjectPagable(Pageable pageRequest,String thesisName,List<String> tagValues,Long matchLimit,String subjectName);
-	
-	@Query("SELECT distinct t from Thesis t join t.subject.courses c where t.name like ?1 and c.name = ?4 and ?3 <= ("
+	@Query("SELECT distinct t from Thesis t where t.name like ?1 and t.course.name = ?4 and ?3 <= ("
 			+ "SELECT count(tag2.id) from Thesis t2 left join t2.tags tag2 where t2.id=t.id and tag2.value in(?2)"
 			+ ")")
 	public Page<Thesis> findByNameLikeTagsAndCoursePagable(Pageable pageRequest,String thesisName,List<String> tagValues,Long matchLimit,String courseName);
-		
-	@Query("SELECT distinct t from Thesis t join t.subject.courses c join c.studies s where t.name like ?1 and s.name = ?4 and ?3 <= ("
+	
+	@Query("SELECT distinct t from Thesis t join t.course.studies s where t.name like ?1 and s.name = ?4 and ?3 <= ("
 			+ "SELECT count(tag2.id) from Thesis t2 left join t2.tags tag2 where t2.id=t.id and tag2.value in(?2)"
 			+ ")")
-	public Page<Thesis> findByNameLikeTagsAndStudiesPagable(Pageable pageRequest,String thesisName,List<String> tagValues,Long matchLimit,String studiesName);
+	public Page<Thesis> findByNameLikeTagsAndStudiesPagable(Pageable pageRequest,String thesisName,List<String> tagValues,Long matchLimit,String studiesName);		
+	
 	
 	
 	

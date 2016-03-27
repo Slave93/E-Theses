@@ -13,7 +13,7 @@ public class ThesisRequest {
 
 	protected String description;
 
-	protected String subjectName;
+	protected String courseName;
 
 	protected Long userId;
 	
@@ -55,14 +55,14 @@ public class ThesisRequest {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}	
+
+	public String getCourseName() {
+		return courseName;
 	}
 
-	public String getSubjectName() {
-		return subjectName;
-	}
-
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 
 	public Long getUserId() {

@@ -15,11 +15,7 @@
 		<property name="authenticationService" ref="authenticationService" />
 		<property name="userService" ref="userService"></property>
 		<property name="thesisService" ref="thesisService" />
-	</bean>
-	<bean id="subjectResource" class="rs.fon.elab.pzr.rest.resources.SubjectResource">
-		<property name="subjectService" ref="subjectService" />
-		<property name="courseService" ref="courseService" />
-	</bean>
+	</bean>	
 	<bean id="courseResource" class="rs.fon.elab.pzr.rest.resources.CourseResource">
 		<property name="courseService" ref="courseService" />
 		<property name="studiesService" ref="studiesService" />
@@ -35,7 +31,7 @@
 	<bean id="thesisResource" class="rs.fon.elab.pzr.rest.resources.ThesisResource">
 		<property name="thesisService" ref="thesisService" />
 		<property name="userService" ref="userService" />
-		<property name="subjectService" ref="subjectService" />
+		<property name="courseService" ref="courseService" />
 		<property name="tagService" ref="tagService" />
 	</bean>
 	<bean id="tagResource" class="rs.fon.elab.pzr.rest.resources.TagResource">		

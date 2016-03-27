@@ -6,7 +6,7 @@ import java.util.Set;
 
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Tag;
-import rs.fon.elab.pzr.rest.model.response.level2.SubjectResponseLevel2;
+import rs.fon.elab.pzr.rest.model.response.level2.CourseResponseLevel2;
 import rs.fon.elab.pzr.rest.model.response.level2.ThesisCommentResponseLevel2;
 import rs.fon.elab.pzr.rest.model.response.level2.UserResponseLevel2;
 
@@ -23,7 +23,7 @@ public class ThesisResponseLevel1 {
 
 	protected String description;
 
-	protected SubjectResponseLevel2 subject;
+	protected CourseResponseLevel2 course;
 
 	protected UserResponseLevel2 user;
 
@@ -88,13 +88,14 @@ public class ThesisResponseLevel1 {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 
-	public SubjectResponseLevel2 getSubject() {
-		return subject;
+	public CourseResponseLevel2 getCourse() {
+		return course;
 	}
 
-	public void setSubject(SubjectResponseLevel2 subject) {
-		this.subject = subject;
+	public void setCourse(CourseResponseLevel2 course) {
+		this.course = course;
 	}
 
 	public UserResponseLevel2 getUser() {

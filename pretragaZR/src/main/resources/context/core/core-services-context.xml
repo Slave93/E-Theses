@@ -18,10 +18,7 @@
 	<beans:bean id="ticketCash" class="rs.fon.elab.pzr.core.model.ticket.InMemoryTicketCash" scope="singleton">
 	</beans:bean>
 	
-	<!-- rest services -->
-	<beans:bean id="subjectService" class="rs.fon.elab.pzr.core.service.SubjectServiceImpl">
-		<beans:property name="subjectRepository" ref="subjectRepository"></beans:property>		
-	</beans:bean>
+	<!-- rest services -->	
 	<beans:bean id="courseService" class="rs.fon.elab.pzr.core.service.CourseServiceImpl">
 		<beans:property name="courseRepository" ref="courseRepository"></beans:property>
 	</beans:bean>

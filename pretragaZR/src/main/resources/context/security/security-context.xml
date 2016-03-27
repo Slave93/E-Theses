@@ -7,7 +7,8 @@
 
 	<!-- Stateless RESTful services use BASIC authentication -->
 	<security:http use-expressions="true" auto-config="false" create-session="stateless" entry-point-ref="unauthorisedEntryPoint" authentication-manager-ref="authenticationManager">
-		<security:intercept-url method="OPTIONS" pattern="/webapi/**" access="permitAll" />
+		<security:intercept-url pattern="/webapi/**" access="permitAll" />
+		<!--security:intercept-url method="OPTIONS" pattern="/webapi/**" access="permitAll" />
 		<security:intercept-url pattern="/webapi/authentication/**" access="permitAll" />
 		<security:intercept-url method="GET" pattern="/webapi/courses/**" access="permitAll" />
 		<security:intercept-url method="GET" pattern="/webapi/subjects/**" access="permitAll" />
@@ -19,7 +20,7 @@
 		<security:intercept-url method="GET" pattern="/webapi/users/**" access="permitAll" />
 		<security:intercept-url method="POST" pattern="/webapi/users" access="permitAll" />
 		<security:intercept-url method="PUT" pattern="/webapi/users/{userID}" access="hasRole('ROLE_USER')" />
-		<security:intercept-url pattern="/webapi/**" access="hasRole('ROLE_ADMIN')" />		
+		<security:intercept-url pattern="/webapi/**" access="hasRole('ROLE_ADMIN')" /-->		
 		<security:custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER" />
 		<security:csrf disabled="true"/>
 	</security:http>

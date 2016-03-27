@@ -43,8 +43,8 @@ public class Thesis {
 		protected String description;
 		
 		@ManyToOne
-		@JoinColumn(name = "subject_id")
-		protected Subject subject;
+		@JoinColumn(name = "course_id")
+		protected Course course;
 		
 		@ManyToOne
 		@JoinColumn(name = "file_id")
@@ -121,15 +121,15 @@ public class Thesis {
 
 		public void setDescription(String description) {
 			this.description = description;
-		}
-
-		public Subject getSubject() {
-			return subject;
-		}
-
-		public void setSubject(Subject subject) {
-			this.subject = subject;
 		}		
+
+		public Course getCourse() {
+			return course;
+		}
+
+		public void setCourse(Course course) {
+			this.course = course;
+		}
 
 		public User getMentor() {
 			return mentor;

@@ -1,21 +1,18 @@
 package rs.fon.elab.pzr.rest.resources;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -31,13 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
-import rs.fon.elab.pzr.core.model.Subject;
+import rs.fon.elab.pzr.core.model.Course;
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Tag;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.model.ThesisComment;
 import rs.fon.elab.pzr.core.model.User;
-import rs.fon.elab.pzr.core.service.SubjectService;
+import rs.fon.elab.pzr.core.service.CourseService;
 import rs.fon.elab.pzr.core.service.TagService;
 import rs.fon.elab.pzr.core.service.ThesisService;
 import rs.fon.elab.pzr.core.service.UserService;
@@ -47,8 +44,6 @@ import rs.fon.elab.pzr.rest.model.request.ThesisRequest;
 import rs.fon.elab.pzr.rest.model.response.level1.ThesisCommentResponseLevel1;
 import rs.fon.elab.pzr.rest.model.response.level1.ThesisPageResponse;
 import rs.fon.elab.pzr.rest.model.response.level1.ThesisResponseLevel1;
-import rs.fon.elab.pzr.rest.model.response.old.ThesisCommentResponse;
-import rs.fon.elab.pzr.rest.model.response.old.ThesisResponse;
 import rs.fon.elab.pzr.rest.model.util.RestFactory;
 
 @RestController
@@ -58,7 +53,7 @@ public class ThesisResource {
 	Logger logger = Logger.getLogger(ThesisResource.class);
 	private ThesisService thesisService;
 	private UserService userService;
-	private SubjectService subjectService;
+	private CourseService courseService;
 	private TagService tagService;
 
 	// READ
@@ -89,12 +84,11 @@ public class ThesisResource {
 			@RequestParam(value = "pageSize", required = false) Integer pageSize,
 			@RequestParam(value = "thesisName", required = false) String thesisName,
 			@RequestParam(value = "tagValues", required = false) List<String> tagValues,
-			@RequestParam(value = "matchLimit", required = false) Long matchLimit,
-			@RequestParam(value = "subjectName", required = false) String subjectName,
+			@RequestParam(value = "matchLimit", required = false) Long matchLimit,			
 			@RequestParam(value = "courseName", required = false) String courseName,
 			@RequestParam(value = "studiesName", required = false) String studiesName,
 			@RequestParam(value = "sortField", required = false) String sortField) {
-		Page<Thesis> thesisPage = thesisService.advancedSearch(pageNumber, pageSize, thesisName, tagValues, matchLimit, subjectName, courseName, studiesName,sortField);
+		Page<Thesis> thesisPage = thesisService.advancedSearch(pageNumber, pageSize, thesisName, tagValues, matchLimit, courseName, studiesName,sortField);
 		return RestFactory.CreateThesisPageResponse(thesisPage);
 	}
 
@@ -121,10 +115,10 @@ public class ThesisResource {
 		thesis.setGrade(thesisRequest.getGrade());
 		thesis.setUserEmail(thesisRequest.getUserEmail());
 		thesis.setUserName(thesisRequest.getUserName());
-		if (thesisRequest.getSubjectName() != null) {
-			Subject subject = subjectService.getSubjectByName(thesisRequest
-					.getSubjectName());
-			thesis.setSubject(subject);
+		if (thesisRequest.getCourseName() != null) {
+			Course course = courseService.getCourseByName(thesisRequest
+					.getCourseName());
+			thesis.setCourse(course);
 		}
 		if (thesisRequest.getUserId() != null) {
 			User user1 = userService.getUser(thesisRequest.getUserId());
@@ -204,10 +198,10 @@ public class ThesisResource {
 				thesis.getFile().setThesisName(thesisRequest.getName());
 			}
 		}
-		if (thesisRequest.getSubjectName() != null) {
-			Subject subject = subjectService.getSubjectByName(thesisRequest
-					.getSubjectName());
-			thesis.setSubject(subject);
+		if (thesisRequest.getCourseName() != null) {
+			Course course = courseService.getCourseByName(thesisRequest
+					.getCourseName());
+			thesis.setCourse(course);
 		}
 
 		return RestFactory.createThesisResponseLevel1(thesisService
@@ -365,14 +359,14 @@ public class ThesisResource {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}	
+
+	public CourseService getCourseService() {
+		return courseService;
 	}
 
-	public SubjectService getSubjectService() {
-		return subjectService;
-	}
-
-	public void setSubjectService(SubjectService subjectService) {
-		this.subjectService = subjectService;
+	public void setCourseService(CourseService courseService) {
+		this.courseService = courseService;
 	}
 
 	public TagService getTagService() {

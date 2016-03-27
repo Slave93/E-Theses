@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import rs.fon.elab.pzr.rest.model.response.level2.StudiesResponseLevel2;
-import rs.fon.elab.pzr.rest.model.response.level2.SubjectResponseLevel2;
+import rs.fon.elab.pzr.rest.model.response.level2.ThesisResponseLevel2;
 
 public class CourseResponseLevel1 {
 	
@@ -12,9 +12,7 @@ public class CourseResponseLevel1 {
 	
 	protected String name;
 	
-	protected String nameShort;
-	
-	protected Set<SubjectResponseLevel2> subjects = new HashSet<SubjectResponseLevel2>();
+	protected String nameShort;	
 	
 	protected Set<StudiesResponseLevel2> studies = new HashSet<StudiesResponseLevel2>();
 
@@ -40,15 +38,7 @@ public class CourseResponseLevel1 {
 
 	public void setNameShort(String nameShort) {
 		this.nameShort = nameShort;
-	}
-
-	public Set<SubjectResponseLevel2> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(Set<SubjectResponseLevel2> subjects) {
-		this.subjects = subjects;
-	}
+	}	
 
 	public Set<StudiesResponseLevel2> getStudies() {
 		return studies;

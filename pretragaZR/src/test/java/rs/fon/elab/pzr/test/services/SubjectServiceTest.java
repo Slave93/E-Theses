@@ -26,16 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
 import rs.fon.elab.pzr.core.model.Course;
 import rs.fon.elab.pzr.core.model.Studies;
-import rs.fon.elab.pzr.core.model.Subject;
+
 import rs.fon.elab.pzr.core.model.Tag;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.repository.CourseRepository;
 import rs.fon.elab.pzr.core.repository.StudiesRepository;
-import rs.fon.elab.pzr.core.repository.SubjectRepository;
+
 import rs.fon.elab.pzr.core.repository.TagRepository;
 import rs.fon.elab.pzr.core.repository.ThesisRepository;
 import rs.fon.elab.pzr.core.service.CourseService;
-import rs.fon.elab.pzr.core.service.SubjectService;
+
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath*:context/core/core-context.xml" })

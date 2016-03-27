@@ -21,7 +21,6 @@ import rs.fon.elab.pzr.core.service.StudiesService;
 import rs.fon.elab.pzr.core.service.util.ParamaterCheck;
 import rs.fon.elab.pzr.rest.model.request.CourseRequest;
 import rs.fon.elab.pzr.rest.model.response.level1.CourseResponseLevel1;
-import rs.fon.elab.pzr.rest.model.response.old.CourseResponse;
 import rs.fon.elab.pzr.rest.model.util.RestFactory;
 
 @RestController

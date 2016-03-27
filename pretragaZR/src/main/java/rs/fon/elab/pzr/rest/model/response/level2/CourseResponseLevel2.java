@@ -11,8 +11,6 @@ public class CourseResponseLevel2 {
 	
 	protected String nameShort;
 	
-	protected Set<Long> subjectIDs = new HashSet<Long>();
-	
 	protected Set<Long> studiesIDs = new HashSet<Long>();
 
 	public Long getId() {
@@ -37,15 +35,7 @@ public class CourseResponseLevel2 {
 
 	public void setNameShort(String nameShort) {
 		this.nameShort = nameShort;
-	}
-
-	public Set<Long> getSubjectIDs() {
-		return subjectIDs;
-	}
-
-	public void setSubjectIDs(Set<Long> subjectIDs) {
-		this.subjectIDs = subjectIDs;
-	}
+	}	
 
 	public Set<Long> getStudiesIDs() {
 		return studiesIDs;

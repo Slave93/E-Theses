@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +22,6 @@ import rs.fon.elab.pzr.rest.model.LoginData;
 import rs.fon.elab.pzr.rest.model.request.AdminPrivilegeRequest;
 import rs.fon.elab.pzr.rest.model.request.UserRequest;
 import rs.fon.elab.pzr.rest.model.response.level1.UserResponseLevel1;
-import rs.fon.elab.pzr.rest.model.response.old.UserResponse;
 import rs.fon.elab.pzr.rest.model.util.RestFactory;
 
 @RestController

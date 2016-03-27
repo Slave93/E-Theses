@@ -28,11 +28,7 @@ public class Course {
 	protected String name;
 	
 	@Column(name = "name_short")
-	protected String nameShort;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "subject_course", joinColumns = { @JoinColumn(name = "course_id") }, inverseJoinColumns = { @JoinColumn(name = "subject_id") })
-	protected Set<Subject> subjects = new HashSet<Subject>();
+	protected String nameShort;	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "course_studies", joinColumns = { @JoinColumn(name = "course_id") }, inverseJoinColumns = { @JoinColumn(name = "studies_id") })
@@ -52,15 +48,7 @@ public class Course {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Set<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(Set<Subject> subjects) {
-		this.subjects = subjects;
-	}
+	}	
 
 	public String getNameShort() {
 		return nameShort;

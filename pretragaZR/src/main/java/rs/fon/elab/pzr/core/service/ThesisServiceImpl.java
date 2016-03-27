@@ -65,7 +65,7 @@ public class ThesisServiceImpl implements ThesisService {
 	@Override
 	public Page<Thesis> advancedSearch(Integer pageNumber, Integer pageSize,
 			String thesisName, List<String> tagValues, Long matchLimit,
-			String subjectName, String courseName, String studiesName,
+			String courseName, String studiesName,
 			String sortField) {
 		if (pageSize == null) {
 			if (pageNumber == null) {
@@ -105,11 +105,7 @@ public class ThesisServiceImpl implements ThesisService {
 		}		
 
 		try {
-			if (subjectName != null && subjectName != "") {
-				return thesisRepository.findByNameLikeTagsAndSubjectPagable(
-						pageRequest, thesisName, tagValues, matchLimit,
-						subjectName);
-			} else if (courseName != null && courseName != "") {
+			if (courseName != null && courseName != "") {
 				return thesisRepository.findByNameLikeTagsAndCoursePagable(
 						pageRequest, thesisName, tagValues, matchLimit,
 						courseName);

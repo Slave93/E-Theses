@@ -2,7 +2,7 @@ package rs.fon.elab.pzr.rest.model.response.level1;
 
 import rs.fon.elab.pzr.rest.model.response.level2.CourseResponseLevel2;
 import rs.fon.elab.pzr.rest.model.response.level2.ThesisResponseLevel2;
-import rs.fon.elab.pzr.rest.model.response.old.SubjectResponse.InnerCourse;
+
 
 public class UserResponseLevel1 {
 	

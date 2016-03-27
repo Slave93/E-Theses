@@ -1,7 +1,5 @@
 package rs.fon.elab.pzr.rest.resources;
 
-import java.util.logging.Logger;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,17 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.fon.elab.pzr.core.exception.AuthenticationException;
-import rs.fon.elab.pzr.core.model.Course;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.model.User;
-import rs.fon.elab.pzr.core.model.ticket.SimpleTicket;
 import rs.fon.elab.pzr.core.service.ThesisService;
 import rs.fon.elab.pzr.core.service.UserService;
 import rs.fon.elab.pzr.core.service.authentication.AuthenticationService;
 import rs.fon.elab.pzr.rest.model.LoginData;
 import rs.fon.elab.pzr.rest.model.response.level1.UserResponseLevel1;
-import rs.fon.elab.pzr.rest.model.response.old.UserResponse;
 import rs.fon.elab.pzr.rest.model.response.ticket.TicketResponse;
 import rs.fon.elab.pzr.rest.model.util.RestFactory;
 
