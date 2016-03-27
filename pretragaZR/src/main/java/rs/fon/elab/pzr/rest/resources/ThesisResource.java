@@ -63,9 +63,11 @@ public class ThesisResource {
 		List<ThesisResponseLevel1> thesisResponseList = new ArrayList<ThesisResponseLevel1>();
 
 		if (userID != null) {
-			thesisResponseList.add(RestFactory
-					.createThesisResponseLevel1(thesisService
-							.getThesisByUserId(userID)));
+			List<Thesis> userThesis = thesisService.getThesisByUserId(userID);
+			for (Thesis thesis : userThesis) {
+				thesisResponseList.add(RestFactory
+						.createThesisResponseLevel1(thesis));
+			}
 			return thesisResponseList;
 		}
 
@@ -77,18 +79,20 @@ public class ThesisResource {
 		}
 		return thesisResponseList;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/advanced_search")
 	public @ResponseBody ThesisPageResponse advancedSearch(
 			@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
 			@RequestParam(value = "pageSize", required = false) Integer pageSize,
 			@RequestParam(value = "thesisName", required = false) String thesisName,
 			@RequestParam(value = "tagValues", required = false) List<String> tagValues,
-			@RequestParam(value = "matchLimit", required = false) Long matchLimit,			
+			@RequestParam(value = "matchLimit", required = false) Long matchLimit,
 			@RequestParam(value = "courseName", required = false) String courseName,
 			@RequestParam(value = "studiesName", required = false) String studiesName,
 			@RequestParam(value = "sortField", required = false) String sortField) {
-		Page<Thesis> thesisPage = thesisService.advancedSearch(pageNumber, pageSize, thesisName, tagValues, matchLimit, courseName, studiesName,sortField);
+		Page<Thesis> thesisPage = thesisService.advancedSearch(pageNumber,
+				pageSize, thesisName, tagValues, matchLimit, courseName,
+				studiesName, sortField);
 		return RestFactory.CreateThesisPageResponse(thesisPage);
 	}
 
@@ -359,7 +363,7 @@ public class ThesisResource {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
-	}	
+	}
 
 	public CourseService getCourseService() {
 		return courseService;

@@ -48,7 +48,7 @@ public class ThesisServiceImpl implements ThesisService {
 	}
 
 	@Override
-	public Thesis getThesisByUserId(Long userId) {
+	public List<Thesis> getThesisByUserId(Long userId) {
 		User user = userRepository.findOne(userId);
 		if (user == null) {
 			throw new InvalidArgumentException("Korisnik sa id-em " + userId
@@ -130,16 +130,7 @@ public class ThesisServiceImpl implements ThesisService {
 		if (thesisRepository.findByName(thesis.getName()) != null) {
 			throw new InvalidArgumentException("Rad " + thesis.getName()
 					+ "već postoji u bazi!");
-		}
-		if (thesis.getUser() != null) {
-			Thesis existingUserThesis = getThesisByUserId(thesis.getUser()
-					.getId());
-			if (existingUserThesis != null) {
-				throw new InvalidArgumentException("Korisnik "
-						+ thesis.getUser().getEmail() + " već ima rad: "
-						+ existingUserThesis.getName());
-			}
-		}
+		}		
 		return thesisRepository.save(thesis);
 	}
 
@@ -156,22 +147,7 @@ public class ThesisServiceImpl implements ThesisService {
 				throw new InvalidArgumentException("Rad " + thesis.getName()
 						+ "već postoji u bazi!");
 			}
-		}
-		if (thesis.getUser() != null) {
-			Long newUserId = thesis.getUser().getId();
-			Long oldUserId = null;
-			if (oldThesis.getUser() != null) {
-				oldUserId = oldThesis.getUser().getId();
-			}
-			if (newUserId != oldUserId) {
-				Thesis existingUserThesis = getThesisByUserId(newUserId);
-				if (existingUserThesis != null) {
-					throw new InvalidArgumentException("Korisnik "
-							+ thesis.getUser().getEmail() + " već ima rad: "
-							+ existingUserThesis.getName());
-				}
-			}
-		}
+		}		
 		return thesisRepository.save(thesis);
 	}
 

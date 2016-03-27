@@ -14,7 +14,7 @@ import rs.fon.elab.pzr.core.model.User;
 public interface ThesisRepository extends PagingAndSortingRepository<Thesis, Long>  {
 	
 	public List<Thesis> findAll();
-	public Thesis findByUser(User user);
+	public List<Thesis> findByUser(User user);
 	public Thesis findByName(String name);		
 	
 	

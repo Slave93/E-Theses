@@ -38,8 +38,7 @@ public class UserResource {
 		List<User> userList = userService.getAllUsers();
 		List<UserResponseLevel1> userResponseList = new ArrayList<UserResponseLevel1>();
 		for (User user : userList) {
-			Thesis thesis = thesisService.getThesisByUserId(user.getId());
-			userResponseList.add(RestFactory.createUserResponseLevel1(user,thesis));
+			userResponseList.add(RestFactory.createUserResponseLevel1(user));
 		}
 		return userResponseList;
 	}
@@ -47,17 +46,14 @@ public class UserResource {
 	@RequestMapping(method = RequestMethod.GET, value = "/{userID}")
 	public @ResponseBody UserResponseLevel1 getUser(
 			@PathVariable("userID") Long userID) {
-		User user = userService.getUser(userID);
-		if(user==null){
-			return null;
-		}
-		Thesis thesis = thesisService.getThesisByUserId(user.getId());
-		return RestFactory.createUserResponseLevel1(userService.getUser(userID),thesis);
+			return RestFactory.createUserResponseLevel1(
+				userService.getUser(userID));
 	}
 
 	// CREATE
 	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody UserResponseLevel1 addUser(@RequestBody LoginData loginData) {
+	public @ResponseBody UserResponseLevel1 addUser(
+			@RequestBody LoginData loginData) {
 		ParamaterCheck.mandatory("Email ", loginData.getEmail());
 		ParamaterCheck.mandatory("Password ", loginData.getPassword());
 		User user = new User();
@@ -81,7 +77,6 @@ public class UserResource {
 			throw new InvalidArgumentException("Korisnik sa id-em " + userID
 					+ " ne postoji u bazi!");
 		}
-		Thesis thesis = thesisService.getThesisByUserId(user.getId());
 
 		if (userRequest.getBiography() != null) {
 			user.setBiography(userRequest.getBiography());
@@ -103,30 +98,31 @@ public class UserResource {
 		if (userRequest.getStudentsTranscript() != null) {
 			user.setStudentsTranscript(userRequest.getStudentsTranscript());
 		}
-		return RestFactory.createUserResponseLevel1(userService.updateUser(user),thesis);
+		return RestFactory.createUserResponseLevel1(
+				userService.updateUser(user));
 
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{userID}/admin")
-	public @ResponseBody UserResponseLevel1 changeAdminPrivilege(@PathVariable("userID") Long userID, @RequestBody AdminPrivilegeRequest adminPrivilegeRequest) {
+	public @ResponseBody UserResponseLevel1 changeAdminPrivilege(
+			@PathVariable("userID") Long userID,
+			@RequestBody AdminPrivilegeRequest adminPrivilegeRequest) {
 		ParamaterCheck.mandatory("admin", adminPrivilegeRequest.isAdmin());
 		User user = userService.getUser(userID);
 		if (user == null) {
 			throw new InvalidArgumentException("Korisnik sa id-em " + userID
 					+ " ne postoji u bazi!");
 		}
-		Thesis thesis = thesisService.getThesisByUserId(user.getId());
 		user.setAdmin(adminPrivilegeRequest.isAdmin());
-		return RestFactory.createUserResponseLevel1(userService.updateUser(user),thesis);
+		return RestFactory.createUserResponseLevel1(
+				userService.updateUser(user));
 	}
-	
-	//DELETE
+
+	// DELETE
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{userID}")
 	public void deleteUser(@PathVariable("userID") Long userID) {
 		userService.deleteUser(userID);
 	}
-	
-	
 
 	// GETTERS AND SETTERS
 	public UserService getUserService() {

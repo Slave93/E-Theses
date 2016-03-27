@@ -17,7 +17,7 @@ public interface ThesisService {
 	
 	public abstract Thesis getThesis(Long id);
 	
-	public abstract Thesis getThesisByUserId(Long userId);
+	public abstract List<Thesis> getThesisByUserId(Long userId);
 
 	public abstract List<Thesis> getAllThesis();
 	

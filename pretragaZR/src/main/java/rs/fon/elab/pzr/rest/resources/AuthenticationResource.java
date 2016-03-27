@@ -29,8 +29,7 @@ public class AuthenticationResource {
 	public @ResponseBody UserResponseLevel1 getAuthenticatedUser(
 			@RequestHeader(value="ticket",required=false) String ticket) {
 		User user = authenticationService.getTicketUser(ticket);
-		Thesis thesis = thesisService.getThesisByUserId(user.getId());
-		return RestFactory.createUserResponseLevel1(user, thesis);
+		return RestFactory.createUserResponseLevel1(user);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

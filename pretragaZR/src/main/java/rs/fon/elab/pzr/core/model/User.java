@@ -1,14 +1,18 @@
 package rs.fon.elab.pzr.core.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -49,6 +53,9 @@ public class User {
 	
 	@Column(name = "last_activity")
 	protected Date lastActivity;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	protected Set<Thesis> theses = new HashSet<Thesis>();
 
 	public Long getId() {
 		return id;
@@ -138,6 +145,12 @@ public class User {
 		this.lastActivity = lastActivity;
 	}
 
-	
+	public Set<Thesis> getTheses() {
+		return theses;
+	}
+
+	public void setTheses(Set<Thesis> theses) {
+		this.theses = theses;
+	}
 
 }

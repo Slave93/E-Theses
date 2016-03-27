@@ -62,13 +62,12 @@ public class RestFactory {
 		thesisResponseLevel1.setGrade(thesis.getGrade());
 		thesisResponseLevel1.setId(thesis.getId());
 		thesisResponseLevel1.setMentor(createUserResponseLevel2(
-				thesis.getMentor(), thesis));
+				thesis.getMentor()));
 		thesisResponseLevel1.setName(thesis.getName());
 		thesisResponseLevel1.setCourse(createCourseResponseLevel2(thesis
 				.getCourse()));
 		thesisResponseLevel1.setTags(thesis.getTags());
-		thesisResponseLevel1.setUser(createUserResponseLevel2(thesis.getUser(),
-				thesis));
+		thesisResponseLevel1.setUser(createUserResponseLevel2(thesis.getUser()));
 		thesisResponseLevel1.setUserEmail(thesis.getUserEmail());
 		thesisResponseLevel1.setUserName(thesis.getUserName());
 		thesisResponseLevel1.setViewCount(thesis.getViewCount());
@@ -119,7 +118,7 @@ public class RestFactory {
 		}
 		ThesisCommentResponseLevel1 thesisCommentResponseLevel1 = new ThesisCommentResponseLevel1();
 		thesisCommentResponseLevel1.setAuthor(createUserResponseLevel2(
-				comment.getAuthor(), comment.getThesis()));
+				comment.getAuthor()));
 		thesisCommentResponseLevel1.setDatePosted(comment.getDatePosted());
 		thesisCommentResponseLevel1.setId(comment.getId());
 		thesisCommentResponseLevel1.setMessage(comment.getMessage());
@@ -151,8 +150,7 @@ public class RestFactory {
 
 	}
 
-	public static UserResponseLevel1 createUserResponseLevel1(User user,
-			Thesis thesis) {
+	public static UserResponseLevel1 createUserResponseLevel1(User user) {
 		if (user == null) {
 			return null;
 		}
@@ -167,14 +165,17 @@ public class RestFactory {
 		userResponseLevel1.setInterests(user.getInterests());
 		userResponseLevel1.setLastName(user.getLastName());
 		userResponseLevel1.setStudentsTranscript(user.getStudentsTranscript());
-		userResponseLevel1.setThesis(createThesisResponseLevel2(thesis));
+		Set<ThesisResponseLevel2> thesisResponseLevel2 = new HashSet<ThesisResponseLevel2>();
+		for(Thesis thesis: user.getTheses()){
+			thesisResponseLevel2.add(createThesisResponseLevel2(thesis));
+		}
+		userResponseLevel1.setTheses(thesisResponseLevel2);
 
 		return userResponseLevel1;
 
 	}
 
-	public static UserResponseLevel2 createUserResponseLevel2(User user,
-			Thesis thesis) {
+	public static UserResponseLevel2 createUserResponseLevel2(User user) {
 		if (user == null) {
 			return null;
 		}
@@ -191,9 +192,12 @@ public class RestFactory {
 		userResponseLevel2.setInterests(user.getInterests());
 		userResponseLevel2.setLastName(user.getLastName());
 		userResponseLevel2.setStudentsTranscript(user.getStudentsTranscript());
-		if (thesis != null) {
-			userResponseLevel2.setThesisId(thesis.getId());
+		List<Long> thesisIDs = new ArrayList<Long>();
+		for(Thesis thesis: user.getTheses()){
+			thesisIDs.add(thesis.getId());
 		}
+		userResponseLevel2.setThesisIDs(thesisIDs);
+		
 		return userResponseLevel2;
 	}
 	

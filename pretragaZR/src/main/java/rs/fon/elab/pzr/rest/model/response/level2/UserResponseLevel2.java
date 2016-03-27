@@ -1,7 +1,9 @@
 package rs.fon.elab.pzr.rest.model.response.level2;
 
+import java.util.List;
+
 public class UserResponseLevel2 {
-	
+
 	protected Long id;
 
 	protected String firstName;
@@ -15,8 +17,8 @@ public class UserResponseLevel2 {
 	protected boolean isAdmin;
 
 	protected Long courseId;
-	
-	protected Long thesisId;
+
+	protected List<Long> thesisIDs;
 
 	protected String biography;
 
@@ -78,12 +80,12 @@ public class UserResponseLevel2 {
 		this.courseId = courseId;
 	}
 
-	public Long getThesisId() {
-		return thesisId;
+	public List<Long> getThesisIDs() {
+		return thesisIDs;
 	}
 
-	public void setThesisId(Long thesisId) {
-		this.thesisId = thesisId;
+	public void setThesisIDs(List<Long> thesisIDs) {
+		this.thesisIDs = thesisIDs;
 	}
 
 	public String getBiography() {
@@ -101,7 +103,5 @@ public class UserResponseLevel2 {
 	public void setInterests(String interests) {
 		this.interests = interests;
 	}
-	
-	
-	
+
 }
