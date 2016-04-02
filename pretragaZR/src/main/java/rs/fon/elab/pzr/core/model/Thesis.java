@@ -75,6 +75,10 @@ public class Thesis {
 		@JoinTable(name = "thesis_tag", joinColumns = { @JoinColumn(name = "thesis_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 		protected Set<Tag> tags = new HashSet<Tag>();
 		
+		@ManyToMany(fetch = FetchType.EAGER)
+		@JoinTable(name = "thesis_field_of_study", joinColumns = { @JoinColumn(name = "thesis_id") }, inverseJoinColumns = { @JoinColumn(name = "field_of_study_id") })
+		protected Set<FieldOfStudy> fieldOfStudies = new HashSet<>(); 
+		
 		@OneToMany(mappedBy = "thesis", fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval=true)
 	    private Set<ThesisKeyword> thesisKeywords = new HashSet<ThesisKeyword>();
 		
@@ -206,7 +210,12 @@ public class Thesis {
 		public void setThesisKeywords(Set<ThesisKeyword> thesisKeywords) {
 			this.thesisKeywords = thesisKeywords;
 		}
-		
-		
-		
+
+		public Set<FieldOfStudy> getFieldOfStudies() {
+			return fieldOfStudies;
+		}
+
+		public void setFieldOfStudies(Set<FieldOfStudy> fieldOfStudies) {
+			this.fieldOfStudies = fieldOfStudies;
+		}		
 }

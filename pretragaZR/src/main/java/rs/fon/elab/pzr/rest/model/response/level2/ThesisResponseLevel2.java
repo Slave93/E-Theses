@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import rs.fon.elab.pzr.core.model.FieldOfStudy;
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Tag;
 
@@ -33,6 +34,8 @@ public class ThesisResponseLevel2 {
 	protected Long mentorId;
 
 	protected Set<Tag> tags = new HashSet<Tag>();
+	
+	protected Set<FieldOfStudy> fieldsOfStudy = new HashSet<>();
 
 	protected Set<Long> commentIDs = new HashSet<Long>();
 
@@ -132,6 +135,14 @@ public class ThesisResponseLevel2 {
 
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
+	}	
+
+	public Set<FieldOfStudy> getFieldsOfStudy() {
+		return fieldsOfStudy;
+	}
+
+	public void setFieldsOfStudy(Set<FieldOfStudy> fieldsOfStudy) {
+		this.fieldsOfStudy = fieldsOfStudy;
 	}
 
 	public Set<Long> getCommentIDs() {

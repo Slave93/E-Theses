@@ -4,6 +4,8 @@ import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
+import rs.fon.elab.pzr.core.model.Keyword;
 import rs.fon.elab.pzr.core.model.Tag;
 import rs.fon.elab.pzr.core.repository.TagRepository;
 
@@ -43,8 +45,13 @@ public class TagServiceImpl implements TagService {
 
 	@Transactional
 	@Override
-	public void removeTag(Long tagId) {
-		tagRepository.delete(tagId);
+	public void removeTag(Long id) {
+		Tag tag = tagRepository.findOne(id);
+		if (tag == null) {
+			throw new InvalidArgumentException("Tag sa id-em " + id
+					+ " ne postoji u bazi!");
+		}
+		tagRepository.delete(id);
 	}
 
 	public TagRepository getTagRepository() {

@@ -25,6 +25,8 @@ public class ThesisRequest {
 	
 	protected Set<String> tags;
 	
+	protected Set<String> fieldsOfStudy;
+	
 	public String getName() {
 		return name;
 	}
@@ -103,5 +105,14 @@ public class ThesisRequest {
 
 	public void setTags(Set<String> tags) {
 		this.tags = tags;
-	}	
+	}
+
+	public Set<String> getFieldsOfStudy() {
+		return fieldsOfStudy;
+	}
+
+	public void setFieldsOfStudy(Set<String> fieldsOfStudy) {
+		this.fieldsOfStudy = fieldsOfStudy;
+	}
+	
 }

@@ -35,7 +35,6 @@ public class ThesisServiceImpl implements ThesisService {
 	private String thesisFilesFolder;
 
 	ThesisRepository thesisRepository;
-	TagRepository tagRepository;
 	CommentRepository commentRepository;
 	UserRepository userRepository;
 	UserService userService;
@@ -360,15 +359,7 @@ public class ThesisServiceImpl implements ThesisService {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
-	public TagRepository getTagRepository() {
-		return tagRepository;
-	}
-
-	public void setTagRepository(TagRepository tagRepository) {
-		this.tagRepository = tagRepository;
-	}
-
+	
 	public CommentRepository getCommentRepository() {
 		return commentRepository;
 	}

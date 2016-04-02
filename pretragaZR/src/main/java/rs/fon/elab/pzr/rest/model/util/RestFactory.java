@@ -67,6 +67,7 @@ public class RestFactory {
 		thesisResponseLevel1.setCourse(createCourseResponseLevel2(thesis
 				.getCourse()));
 		thesisResponseLevel1.setTags(thesis.getTags());
+		thesisResponseLevel1.setFieldsOfStudy(thesis.getFieldOfStudies());
 		thesisResponseLevel1.setUser(createUserResponseLevel2(thesis.getUser()));
 		thesisResponseLevel1.setUserEmail(thesis.getUserEmail());
 		thesisResponseLevel1.setUserName(thesis.getUserName());
@@ -101,6 +102,7 @@ public class RestFactory {
 			thesisResponseLevel2.setCourseId(course.getId());
 		}
 		thesisResponseLevel2.setTags(thesis.getTags());
+		thesisResponseLevel2.setFieldsOfStudy(thesis.getFieldOfStudies());
 		User user = thesis.getUser();
 		if (user != null) {
 			thesisResponseLevel2.setUserId(user.getId());

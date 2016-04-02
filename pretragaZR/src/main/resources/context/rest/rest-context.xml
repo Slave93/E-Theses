@@ -33,10 +33,14 @@
 		<property name="userService" ref="userService" />
 		<property name="courseService" ref="courseService" />
 		<property name="tagService" ref="tagService" />
+		<property name="fieldOfStudyService" ref="fieldOfStudyService" />
 		<property name="keywordService" ref="keywordService"/>
 	</bean>
 	<bean id="tagResource" class="rs.fon.elab.pzr.rest.resources.TagResource">		
 		<property name="tagService" ref="tagService" />
+	</bean>
+	<bean id="fieldOfStudyResource" class="rs.fon.elab.pzr.rest.resources.FieldOfStudyResource">		
+		<property name="fieldOfStudyService" ref="fieldOfStudyService" />
 	</bean>
 
 </beans>

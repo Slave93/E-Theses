@@ -35,7 +35,6 @@
 	</beans:bean>
 	<beans:bean id="thesisService" class="rs.fon.elab.pzr.core.service.ThesisServiceImpl">
 		<beans:property name="thesisRepository" ref="thesisRepository"></beans:property>
-		<beans:property name="tagRepository" ref="tagRepository"></beans:property>
 		<beans:property name="commentRepository" ref="commentRepository"></beans:property>
 		<beans:property name="fileRepository" ref="fileRepository"></beans:property>
 		<beans:property name="userRepository" ref="userRepository"></beans:property>
@@ -45,6 +44,9 @@
 	
 	<beans:bean id="tagService" class="rs.fon.elab.pzr.core.service.TagServiceImpl">
 		<beans:property name="tagRepository" ref="tagRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="fieldOfStudyService" class="rs.fon.elab.pzr.core.service.FieldOfStudyServiceImpl">
+		<beans:property name="fieldOfStudyRepository" ref="fieldOfStudyRepository"></beans:property>
 	</beans:bean>
 	
 	

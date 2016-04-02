@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
 import rs.fon.elab.pzr.core.model.Course;
+import rs.fon.elab.pzr.core.model.FieldOfStudy;
 import rs.fon.elab.pzr.core.model.Keyword;
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Tag;
@@ -38,6 +39,7 @@ import rs.fon.elab.pzr.core.model.ThesisComment;
 import rs.fon.elab.pzr.core.model.ThesisKeyword;
 import rs.fon.elab.pzr.core.model.User;
 import rs.fon.elab.pzr.core.service.CourseService;
+import rs.fon.elab.pzr.core.service.FieldOfStudyService;
 import rs.fon.elab.pzr.core.service.KeywordService;
 import rs.fon.elab.pzr.core.service.TagService;
 import rs.fon.elab.pzr.core.service.ThesisService;
@@ -59,6 +61,7 @@ public class ThesisResource {
 	private UserService userService;
 	private CourseService courseService;
 	private TagService tagService;
+	private FieldOfStudyService fieldOfStudyService;
 	private KeywordService keywordService;
 
 	// READ
@@ -150,11 +153,18 @@ public class ThesisResource {
 			thesis.setUser(user1);
 		}
 		if (thesisRequest.getTags() != null) {
-			Set<Tag> tagList = new HashSet<Tag>();
+			Set<Tag> tagList = new HashSet<>();
 			for (String tagValue : thesisRequest.getTags()) {
 				tagList.add(tagService.addTag(tagValue));
 			}
 			thesis.setTags(tagList);
+		}
+		if (thesisRequest.getFieldsOfStudy() != null) {
+			Set<FieldOfStudy> fieldOfStudiesList = new HashSet<>();
+			for (String fieldOfStudyName : thesisRequest.getFieldsOfStudy()) {
+				fieldOfStudiesList.add(fieldOfStudyService.addFieldOfStudy(fieldOfStudyName));
+			}
+			thesis.setFieldOfStudies(fieldOfStudiesList);
 		}
 		if (thesisRequest.getMentorId() != null) {
 			User mentor = userService.getUser(thesisRequest.getMentorId());
@@ -229,6 +239,13 @@ public class ThesisResource {
 				tagList.add(tagService.addTag(tagValue));
 			}
 			thesis.setTags(tagList);
+		}
+		if (thesisRequest.getFieldsOfStudy() != null) {
+			Set<FieldOfStudy> fieldOfStudiesList = new HashSet<>();
+			for (String fieldOfStudyName : thesisRequest.getFieldsOfStudy()) {
+				fieldOfStudiesList.add(fieldOfStudyService.addFieldOfStudy(fieldOfStudyName));
+			}
+			thesis.setFieldOfStudies(fieldOfStudiesList);
 		}
 		if (thesisRequest.getUserId() != null) {
 			User user = userService.getUser(thesisRequest.getUserId());
@@ -417,6 +434,14 @@ public class ThesisResource {
 
 	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
+	}	
+
+	public FieldOfStudyService getFieldOfStudyService() {
+		return fieldOfStudyService;
+	}
+
+	public void setFieldOfStudyService(FieldOfStudyService fieldOfStudyService) {
+		this.fieldOfStudyService = fieldOfStudyService;
 	}
 
 	public KeywordService getKeywordService() {

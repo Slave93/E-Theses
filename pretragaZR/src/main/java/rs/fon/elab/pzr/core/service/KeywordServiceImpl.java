@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
+import rs.fon.elab.pzr.core.model.FieldOfStudy;
 import rs.fon.elab.pzr.core.model.Keyword;
 import rs.fon.elab.pzr.core.repository.KeywordRepository;
 
@@ -50,6 +52,11 @@ public class KeywordServiceImpl implements KeywordService {
 	@Override
 	@Transactional
 	public void removeKeyword(Long id) {
+		Keyword keyword = keywordRepository.findOne(id);
+		if (keyword == null) {
+			throw new InvalidArgumentException("Ključna reč sa id-em " + id
+					+ " ne postoji u bazi!");
+		}
 		keywordRepository.delete(id);
 	}
 

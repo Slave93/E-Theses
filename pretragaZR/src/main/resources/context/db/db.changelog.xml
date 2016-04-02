@@ -147,13 +147,13 @@
 			</column>
 			<column name="is_banned" type="tinyint(1)">
 				<constraints nullable="false" />
-			</column>			
+			</column>
 		</createTable>
 
 		<createIndex indexName="keyword_value" tableName="keyword">
-			<column name="value" />			
-		</createIndex>		
-		
+			<column name="value" />
+		</createIndex>
+
 		<createTable tableName="thesis_keyword">
 			<column name="thesis_keyword_id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" />
@@ -205,6 +205,36 @@
 			referencedTableName="tag" />
 		<addForeignKeyConstraint baseColumnNames="thesis_id"
 			baseTableName="thesis_tag" constraintName="fk_thesis_tags_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
+		<createTable tableName="field_of_study">
+			<column name="field_of_study_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createIndex indexName="field_of_study_name" tableName="field_of_study">
+			<column name="name" />
+		</createIndex>
+
+		<createTable tableName="thesis_field_of_study">
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="field_of_study_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="field_of_study_id"
+			baseTableName="thesis_field_of_study" constraintName="fk_thesis_field_field"
+			onDelete="CASCADE" referencedColumnNames="field_of_study_id"
+			referencedTableName="field_of_study" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_field_of_study" constraintName="fk_thesis_field_thesis"
 			onDelete="CASCADE" referencedColumnNames="thesis_id"
 			referencedTableName="thesis" />
 
