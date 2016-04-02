@@ -17,10 +17,15 @@ public interface KeywordService {
 
 	public abstract Set<Keyword> getAllKeywords();
 
-	public abstract Keyword addKeyword(String value);
+	public abstract Keyword addKeyword(Keyword keyword);
+	
+	public Keyword addBannedKeyword(String value); 
+	
+	public abstract Keyword updateKeyword(Keyword keyword);
 
 	public abstract void removeKeyword(Long id);
 
 	public Map<String, Integer> extractWordsWithCount(String text);
+
 
 }

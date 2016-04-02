@@ -6,15 +6,17 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
-import rs.fon.elab.pzr.core.model.FieldOfStudy;
 import rs.fon.elab.pzr.core.model.Keyword;
 import rs.fon.elab.pzr.core.repository.KeywordRepository;
 
 public class KeywordServiceImpl implements KeywordService {
 
+	Logger logger = Logger.getLogger(KeywordServiceImpl.class);
+	
 	KeywordRepository keywordRepository;
 	ThesisService thesisService;
 
@@ -35,17 +37,43 @@ public class KeywordServiceImpl implements KeywordService {
 
 	@Override
 	@Transactional
-	public Keyword addKeyword(String value) {
-		value = value.toLowerCase();
+	public Keyword addKeyword(Keyword keyword) {
+		keyword.setValue(keyword.getValue().toLowerCase());
 		// remove white spaces and tabs
-		value = value.replaceAll("\\s+", "");
+		keyword.setValue(keyword.getValue().replaceAll("\\s+", ""));
 
+		Keyword existingKeyword = keywordRepository.findByValue(keyword.getValue());
+		if (existingKeyword != null) {
+			return existingKeyword;
+		}
+		return keywordRepository.save(keyword);
+	}
+	
+	@Override
+	@Transactional
+	public Keyword updateKeyword(Keyword keyword) {
+		Keyword existingKeyword = keywordRepository.findOne(keyword.getId());
+		if (existingKeyword == null) {
+			throw new InvalidArgumentException("Ključna reč sa id-em " + keyword.getId()
+					+ " ne postoji u bazi!");
+		}
+		return keywordRepository.save(keyword);
+	}
+	
+	@Transactional
+	@Override
+	public Keyword addBannedKeyword(String value) {
+		value = value.toLowerCase();
+		value = value.replaceAll("\\s+", "");
+		
 		Keyword keyword = keywordRepository.findByValue(value);
-		if (keyword != null) {
-			return keyword;
+		if(keyword!=null){
+			keyword.setBanned(true);
+			return keywordRepository.save(keyword);
 		}
 		keyword = new Keyword();
 		keyword.setValue(value);
+		keyword.setBanned(true);
 		return keywordRepository.save(keyword);
 	}
 
@@ -56,6 +84,9 @@ public class KeywordServiceImpl implements KeywordService {
 		if (keyword == null) {
 			throw new InvalidArgumentException("Ključna reč sa id-em " + id
 					+ " ne postoji u bazi!");
+		}
+		if(keywordRepository.numberOfConnectedTheses(id)>0){
+			throw new InvalidArgumentException("Ne može se obrisati ključna reč koja je povezana sa postojećim radovima");
 		}
 		keywordRepository.delete(id);
 	}
@@ -92,8 +123,5 @@ public class KeywordServiceImpl implements KeywordService {
 
 	public void setThesisService(ThesisService thesisService) {
 		this.thesisService = thesisService;
-	}
-	
-	
-
+	}	
 }

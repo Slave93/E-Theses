@@ -12,4 +12,7 @@ public interface KeywordRepository extends CrudRepository<Keyword, Long> {
 
 	public Set<Keyword> findAll();
 	
+	@Query("SELECT count(tk.keyword) from ThesisKeyword tk where tk.keyword.id=?1")
+	public Long numberOfConnectedTheses(Long keywordId);
+	
 }

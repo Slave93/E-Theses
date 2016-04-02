@@ -130,8 +130,10 @@ public class ThesisResource {
 					.extractWordsWithCount(thesisRequest.getDescription());
 
 			for (Map.Entry<String, Integer> entry : keywords.entrySet()) {
+				Keyword keyword = new Keyword();
+				keyword.setValue(entry.getKey());
 				// add or return existing
-				Keyword keyword = keywordService.addKeyword(entry.getKey());
+				keyword = keywordService.addKeyword(keyword);
 
 				ThesisKeyword thesisKeywod = new ThesisKeyword();
 				thesisKeywod.setCount(entry.getValue());
@@ -211,8 +213,10 @@ public class ThesisResource {
 						.extractWordsWithCount(description);
 
 				for (Map.Entry<String, Integer> entry : keywords.entrySet()) {
+					Keyword keyword = new Keyword();
+					keyword.setValue(entry.getKey());
 					// added or returned existing
-					Keyword keyword = keywordService.addKeyword(entry.getKey());
+					keyword = keywordService.addKeyword(keyword);
 
 					ThesisKeyword thesisKeywod = new ThesisKeyword();
 					thesisKeywod.setCount(entry.getValue());
