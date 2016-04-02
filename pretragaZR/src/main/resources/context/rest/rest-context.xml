@@ -33,6 +33,7 @@
 		<property name="userService" ref="userService" />
 		<property name="courseService" ref="courseService" />
 		<property name="tagService" ref="tagService" />
+		<property name="keywordService" ref="keywordService"/>
 	</bean>
 	<bean id="tagResource" class="rs.fon.elab.pzr.rest.resources.TagResource">		
 		<property name="tagService" ref="tagService" />

@@ -5,14 +5,10 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<changeSet id="1.0.0" author="slavko.komarica">
-		<!-- createTable tableName="subject">
-			<column name="subject_id" type="bigint" autoIncrement="true">
-				<constraints primaryKey="true" />
-			</column>
-			<column name="name" type="varchar(100)">
-				<constraints nullable="false" unique="true" />
-			</column>
-		</createTable-->
+		<!-- createTable tableName="subject"> <column name="subject_id" type="bigint" 
+			autoIncrement="true"> <constraints primaryKey="true" /> </column> <column 
+			name="name" type="varchar(100)"> <constraints nullable="false" unique="true" 
+			/> </column> </createTable -->
 
 
 		<createTable tableName="course">
@@ -40,22 +36,14 @@
 		</createTable>
 
 
-		<!--createTable tableName="subject_course">
-			<column name="subject_id" type="bigint">
-				<constraints nullable="false" />
-			</column>
-			<column name="course_id" type="bigint">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-		<addForeignKeyConstraint baseColumnNames="subject_id"
-			baseTableName="subject_course" constraintName="fk_subject_course_subject"
-			onDelete="CASCADE" referencedColumnNames="subject_id"
-			referencedTableName="subject" />
-		<addForeignKeyConstraint baseColumnNames="course_id"
-			baseTableName="subject_course" constraintName="fk_subject_course_course"
-			onDelete="CASCADE" referencedColumnNames="course_id"
-			referencedTableName="course" /-->
+		<!--createTable tableName="subject_course"> <column name="subject_id" type="bigint"> 
+			<constraints nullable="false" /> </column> <column name="course_id" type="bigint"> 
+			<constraints nullable="false" /> </column> </createTable> <addForeignKeyConstraint 
+			baseColumnNames="subject_id" baseTableName="subject_course" constraintName="fk_subject_course_subject" 
+			onDelete="CASCADE" referencedColumnNames="subject_id" referencedTableName="subject" 
+			/> <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="subject_course" 
+			constraintName="fk_subject_course_course" onDelete="CASCADE" referencedColumnNames="course_id" 
+			referencedTableName="course" / -->
 
 		<createTable tableName="course_studies">
 			<column name="course_id" type="bigint">
@@ -134,7 +122,7 @@
 			<column name="user_email" type="varchar(40)" />
 			<column name="user_name" type="varchar(65)" />
 			<column name="user_mentor_id" type="bigint" />
-			<column name="view_count" type="mediumint unsigned" />			
+			<column name="view_count" type="mediumint unsigned" />
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="course_id"
 			baseTableName="thesis" constraintName="fk_thesis_course" onDelete="SET NULL"
@@ -150,6 +138,45 @@
 			baseTableName="thesis" constraintName="fk_thesis_file" onDelete="SET NULL"
 			referencedColumnNames="file_id" referencedTableName="file" />
 
+		<createTable tableName="keyword">
+			<column name="keyword_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="value" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="is_banned" type="tinyint(1)">
+				<constraints nullable="false" />
+			</column>			
+		</createTable>
+
+		<createIndex indexName="keyword_value" tableName="keyword">
+			<column name="value" />			
+		</createIndex>		
+		
+		<createTable tableName="thesis_keyword">
+			<column name="thesis_keyword_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="keyword_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="count" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="keyword_id"
+			baseTableName="thesis_keyword" constraintName="fk_thesis_keywords_keyword"
+			onDelete="CASCADE" referencedColumnNames="keyword_id"
+			referencedTableName="keyword" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_keyword" constraintName="fk_thesis_keywords_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
 
 		<createTable tableName="tag">
 			<column name="tag_id" type="bigint" autoIncrement="true">
@@ -160,6 +187,9 @@
 			</column>
 		</createTable>
 
+		<createIndex indexName="tag_value" tableName="tag">
+			<column name="value" />
+		</createIndex>
 
 		<createTable tableName="thesis_tag">
 			<column name="thesis_id" type="bigint">

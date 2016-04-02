@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -160,8 +159,8 @@ public class ThesisServiceImpl implements ThesisService {
 					+ " ne postoji u bazi!");
 		}
 		thesisRepository.delete(thesis);
-	}
-
+	}	
+	
 	@Override
 	public TFile addFile(Long thesisId, MultipartFile file) {
 		if (file.isEmpty()) {
@@ -401,5 +400,4 @@ public class ThesisServiceImpl implements ThesisService {
 	public void setThesisFilesFolder(String thesisFilesFolder) {
 		this.thesisFilesFolder = thesisFilesFolder;
 	}
-
 }

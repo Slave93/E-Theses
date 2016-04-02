@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -29,12 +30,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import rs.fon.elab.pzr.core.exception.InvalidArgumentException;
 import rs.fon.elab.pzr.core.model.Course;
+import rs.fon.elab.pzr.core.model.Keyword;
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Tag;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.model.ThesisComment;
+import rs.fon.elab.pzr.core.model.ThesisKeyword;
 import rs.fon.elab.pzr.core.model.User;
 import rs.fon.elab.pzr.core.service.CourseService;
+import rs.fon.elab.pzr.core.service.KeywordService;
 import rs.fon.elab.pzr.core.service.TagService;
 import rs.fon.elab.pzr.core.service.ThesisService;
 import rs.fon.elab.pzr.core.service.UserService;
@@ -55,6 +59,7 @@ public class ThesisResource {
 	private UserService userService;
 	private CourseService courseService;
 	private TagService tagService;
+	private KeywordService keywordService;
 
 	// READ
 	@RequestMapping(method = RequestMethod.GET)
@@ -115,7 +120,23 @@ public class ThesisResource {
 		thesis.setName(thesisRequest.getName());
 		thesis.setDatePosted(new Date());
 		thesis.setDefenseDate(thesisRequest.getDefenseDate());
-		thesis.setDescription(thesisRequest.getDescription());
+		String description = thesisRequest.getDescription();
+		thesis.setDescription(description);
+		if (description != null && !description.isEmpty()) {
+			Map<String, Integer> keywords = keywordService
+					.extractWordsWithCount(thesisRequest.getDescription());
+
+			for (Map.Entry<String, Integer> entry : keywords.entrySet()) {
+				// add or return existing
+				Keyword keyword = keywordService.addKeyword(entry.getKey());
+
+				ThesisKeyword thesisKeywod = new ThesisKeyword();
+				thesisKeywod.setCount(entry.getValue());
+				thesisKeywod.setKeyword(keyword);
+				thesisKeywod.setThesis(thesis);
+				thesis.getThesisKeywords().add(thesisKeywod);
+			}
+		}
 		thesis.setGrade(thesisRequest.getGrade());
 		thesis.setUserEmail(thesisRequest.getUserEmail());
 		thesis.setUserName(thesisRequest.getUserName());
@@ -138,10 +159,10 @@ public class ThesisResource {
 		if (thesisRequest.getMentorId() != null) {
 			User mentor = userService.getUser(thesisRequest.getMentorId());
 			thesis.setMentor(mentor);
-		}
-
-		return RestFactory.createThesisResponseLevel1(thesisService
-				.addThesis(thesis));
+		}		
+		ThesisResponseLevel1 thesisResponseLevel1 = RestFactory
+				.createThesisResponseLevel1(thesisService.addThesis(thesis));
+		return thesisResponseLevel1;
 	}
 
 	/*
@@ -169,8 +190,25 @@ public class ThesisResource {
 		if (thesisRequest.getDefenseDate() != null) {
 			thesis.setDefenseDate(thesisRequest.getDefenseDate());
 		}
-		if (thesisRequest.getDescription() != null) {
-			thesis.setDescription(thesisRequest.getDescription());
+		String description = thesisRequest.getDescription();
+		if (description != null && !description.equals(thesis.getDescription())) {
+			thesis.setDescription(description);
+			thesis.getThesisKeywords().clear();
+			if (!description.isEmpty()) {
+				Map<String, Integer> keywords = keywordService
+						.extractWordsWithCount(description);
+
+				for (Map.Entry<String, Integer> entry : keywords.entrySet()) {
+					// added or returned existing
+					Keyword keyword = keywordService.addKeyword(entry.getKey());
+
+					ThesisKeyword thesisKeywod = new ThesisKeyword();
+					thesisKeywod.setCount(entry.getValue());
+					thesisKeywod.setKeyword(keyword);
+					thesisKeywod.setThesis(thesis);
+					thesis.getThesisKeywords().add(thesisKeywod);
+				}
+			}
 		}
 		if (thesisRequest.getGrade() != null) {
 			thesis.setGrade(thesisRequest.getGrade());
@@ -207,7 +245,7 @@ public class ThesisResource {
 					.getCourseName());
 			thesis.setCourse(course);
 		}
-
+		
 		return RestFactory.createThesisResponseLevel1(thesisService
 				.updateThesis(thesis));
 	}
@@ -379,6 +417,14 @@ public class ThesisResource {
 
 	public void setTagService(TagService tagService) {
 		this.tagService = tagService;
+	}
+
+	public KeywordService getKeywordService() {
+		return keywordService;
+	}
+
+	public void setKeywordService(KeywordService keywordService) {
+		this.keywordService = keywordService;
 	}
 
 }

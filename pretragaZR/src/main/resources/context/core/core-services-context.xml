@@ -25,6 +25,10 @@
 	<beans:bean id="studiesService" class="rs.fon.elab.pzr.core.service.StudiesServiceImpl">
 		<beans:property name="studiesRepository" ref="studiesRepository"></beans:property>
 	</beans:bean>
+	<beans:bean id="keywordService" class="rs.fon.elab.pzr.core.service.KeywordServiceImpl">
+		<beans:property name="keywordRepository" ref="keywordRepository"></beans:property>
+		<beans:property name="thesisService" ref="thesisService"></beans:property>
+	</beans:bean>
 	<beans:bean id="userService" class="rs.fon.elab.pzr.core.service.UserServiceImpl">
 		<beans:property name="thesisRepository" ref="thesisRepository"></beans:property>
 		<beans:property name="userRepository" ref="userRepository"></beans:property>
@@ -35,7 +39,7 @@
 		<beans:property name="commentRepository" ref="commentRepository"></beans:property>
 		<beans:property name="fileRepository" ref="fileRepository"></beans:property>
 		<beans:property name="userRepository" ref="userRepository"></beans:property>
-		<beans:property name="userService" ref="userService"></beans:property>	
+		<beans:property name="userService" ref="userService"></beans:property>
 		<beans:property name="thesisFilesFolder" value="${location.thesis.files}"></beans:property>			
 	</beans:bean>
 	

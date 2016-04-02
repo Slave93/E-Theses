@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import rs.fon.elab.pzr.core.model.TFile;
 import rs.fon.elab.pzr.core.model.Thesis;
 import rs.fon.elab.pzr.core.model.ThesisComment;
+import rs.fon.elab.pzr.core.model.ThesisKeyword;
 
 public interface ThesisService {
 	

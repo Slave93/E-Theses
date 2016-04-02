@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -73,6 +74,9 @@ public class Thesis {
 		@ManyToMany(fetch = FetchType.EAGER)
 		@JoinTable(name = "thesis_tag", joinColumns = { @JoinColumn(name = "thesis_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 		protected Set<Tag> tags = new HashSet<Tag>();
+		
+		@OneToMany(mappedBy = "thesis", fetch = FetchType.EAGER, cascade=CascadeType.ALL,orphanRemoval=true)
+	    private Set<ThesisKeyword> thesisKeywords = new HashSet<ThesisKeyword>();
 		
 
 		public Long getId() {
@@ -193,5 +197,16 @@ public class Thesis {
 
 		public void setViewCount(Integer viewCount) {
 			this.viewCount = viewCount;
-		}				
+		}
+
+		public Set<ThesisKeyword> getThesisKeywords() {
+			return thesisKeywords;
+		}
+
+		public void setThesisKeywords(Set<ThesisKeyword> thesisKeywords) {
+			this.thesisKeywords = thesisKeywords;
+		}
+		
+		
+		
 }
