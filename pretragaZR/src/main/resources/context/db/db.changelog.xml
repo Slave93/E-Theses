@@ -122,6 +122,8 @@
 			<column name="user_email" type="varchar(40)" />
 			<column name="user_name" type="varchar(65)" />
 			<column name="user_mentor_id" type="bigint" />
+			<column name="mentor_email" type="varchar(40)" />
+			<column name="mentor_name" type="varchar(65)" />
 			<column name="view_count" type="mediumint unsigned" />
 		</createTable>
 		<addForeignKeyConstraint baseColumnNames="course_id"

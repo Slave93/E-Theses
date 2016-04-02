@@ -68,6 +68,12 @@ public class Thesis {
 		@JoinColumn(name = "user_mentor_id")
 		protected User mentor;
 		
+		@Column(name="mentor_name")
+		protected String mentorName;
+		
+		@Column(name="mentor_email")
+		protected String mentorEmail;
+		
 		@OneToMany(mappedBy = "thesis", fetch = FetchType.EAGER)
 		protected Set<ThesisComment> comments = new HashSet<ThesisComment>();
 		
@@ -217,5 +223,21 @@ public class Thesis {
 
 		public void setFieldOfStudies(Set<FieldOfStudy> fieldOfStudies) {
 			this.fieldOfStudies = fieldOfStudies;
+		}
+
+		public String getMentorName() {
+			return mentorName;
+		}
+
+		public void setMentorName(String mentorName) {
+			this.mentorName = mentorName;
+		}
+
+		public String getMentorEmail() {
+			return mentorEmail;
+		}
+
+		public void setMentorEmail(String mentorEmail) {
+			this.mentorEmail = mentorEmail;
 		}		
 }

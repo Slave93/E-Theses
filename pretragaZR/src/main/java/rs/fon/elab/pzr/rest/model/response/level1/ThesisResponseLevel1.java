@@ -35,6 +35,10 @@ public class ThesisResponseLevel1 {
 	protected Integer viewCount = 0;
 
 	protected UserResponseLevel2 mentor;
+	
+	protected String mentorName;
+
+	protected String mentorEmail;
 
 	protected Set<Tag> tags = new HashSet<>();
 	
@@ -131,6 +135,22 @@ public class ThesisResponseLevel1 {
 
 	public void setMentor(UserResponseLevel2 mentor) {
 		this.mentor = mentor;
+	}	
+
+	public String getMentorName() {
+		return mentorName;
+	}
+
+	public void setMentorName(String mentorName) {
+		this.mentorName = mentorName;
+	}
+
+	public String getMentorEmail() {
+		return mentorEmail;
+	}
+
+	public void setMentorEmail(String mentorEmail) {
+		this.mentorEmail = mentorEmail;
 	}
 
 	public Set<Tag> getTags() {

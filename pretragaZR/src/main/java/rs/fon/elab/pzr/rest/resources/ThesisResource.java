@@ -143,6 +143,8 @@ public class ThesisResource {
 		thesis.setGrade(thesisRequest.getGrade());
 		thesis.setUserEmail(thesisRequest.getUserEmail());
 		thesis.setUserName(thesisRequest.getUserName());
+		thesis.setMentorEmail(thesisRequest.getMentorEmail());
+		thesis.setMentorName(thesisRequest.getMentorName());
 		if (thesisRequest.getCourseName() != null) {
 			Course course = courseService.getCourseByName(thesisRequest
 					.getCourseName());
@@ -228,6 +230,12 @@ public class ThesisResource {
 		}
 		if (thesisRequest.getUserName() != null) {
 			thesis.setUserName(thesisRequest.getUserName());
+		}
+		if (thesisRequest.getMentorEmail()!=null){
+			thesis.setMentorEmail(thesisRequest.getMentorEmail());
+		}
+		if(thesisRequest.getMentorName()!=null){
+			thesis.setMentorName(thesisRequest.getMentorName());
 		}
 		if (thesisRequest.getMentorId() != null) {
 			User mentor = userService.getUser(thesisRequest.getMentorId());

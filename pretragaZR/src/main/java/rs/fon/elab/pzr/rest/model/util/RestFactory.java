@@ -63,6 +63,8 @@ public class RestFactory {
 		thesisResponseLevel1.setId(thesis.getId());
 		thesisResponseLevel1.setMentor(createUserResponseLevel2(
 				thesis.getMentor()));
+		thesisResponseLevel1.setMentorName(thesis.getMentorName());
+		thesisResponseLevel1.setMentorEmail(thesis.getMentorEmail());
 		thesisResponseLevel1.setName(thesis.getName());
 		thesisResponseLevel1.setCourse(createCourseResponseLevel2(thesis
 				.getCourse()));
@@ -96,6 +98,8 @@ public class RestFactory {
 		if (mentor != null) {
 			thesisResponseLevel2.setMentorId(mentor.getId());
 		}
+		thesisResponseLevel2.setMentorEmail(thesis.getMentorEmail());
+		thesisResponseLevel2.setMentorName(thesis.getMentorName());
 		thesisResponseLevel2.setName(thesis.getName());
 		Course course = thesis.getCourse();
 		if (course != null) {

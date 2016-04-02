@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class ThesisRequest {
-	
+
 	protected String name;
 
 	protected Integer grade;
@@ -16,17 +16,21 @@ public class ThesisRequest {
 	protected String courseName;
 
 	protected Long userId;
-	
+
 	protected String userName;
-	
+
 	protected String userEmail;
 
 	protected Long mentorId;
-	
+
+	protected String mentorName;
+
+	protected String mentorEmail;
+
 	protected Set<String> tags;
-	
+
 	protected Set<String> fieldsOfStudy;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -41,7 +45,7 @@ public class ThesisRequest {
 
 	public void setGrade(Integer grade) {
 		this.grade = grade;
-	}	
+	}
 
 	public Date getDefenseDate() {
 		return defenseDate;
@@ -57,7 +61,7 @@ public class ThesisRequest {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}	
+	}
 
 	public String getCourseName() {
 		return courseName;
@@ -73,7 +77,7 @@ public class ThesisRequest {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
-	}	
+	}
 
 	public String getUserName() {
 		return userName;
@@ -99,6 +103,22 @@ public class ThesisRequest {
 		this.mentorId = mentorId;
 	}
 
+	public String getMentorName() {
+		return mentorName;
+	}
+
+	public void setMentorName(String mentorName) {
+		this.mentorName = mentorName;
+	}
+
+	public String getMentorEmail() {
+		return mentorEmail;
+	}
+
+	public void setMentorEmail(String mentorEmail) {
+		this.mentorEmail = mentorEmail;
+	}
+
 	public Set<String> getTags() {
 		return tags;
 	}
@@ -114,5 +134,5 @@ public class ThesisRequest {
 	public void setFieldsOfStudy(Set<String> fieldsOfStudy) {
 		this.fieldsOfStudy = fieldsOfStudy;
 	}
-	
+
 }
