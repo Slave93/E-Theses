@@ -26,6 +26,8 @@ public interface KeywordService {
 	public abstract void removeKeyword(Long id);
 
 	public Map<String, Integer> extractWordsWithCount(String text);
+	
+	public Integer deleteUnConnectedUnBannedKeywords();
 
 
 }

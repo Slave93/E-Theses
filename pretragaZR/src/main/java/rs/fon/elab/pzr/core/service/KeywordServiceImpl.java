@@ -16,7 +16,7 @@ import rs.fon.elab.pzr.core.repository.KeywordRepository;
 public class KeywordServiceImpl implements KeywordService {
 
 	Logger logger = Logger.getLogger(KeywordServiceImpl.class);
-	
+
 	KeywordRepository keywordRepository;
 	ThesisService thesisService;
 
@@ -42,32 +42,33 @@ public class KeywordServiceImpl implements KeywordService {
 		// remove white spaces and tabs
 		keyword.setValue(keyword.getValue().replaceAll("\\s+", ""));
 
-		Keyword existingKeyword = keywordRepository.findByValue(keyword.getValue());
+		Keyword existingKeyword = keywordRepository.findByValue(keyword
+				.getValue());
 		if (existingKeyword != null) {
 			return existingKeyword;
 		}
 		return keywordRepository.save(keyword);
 	}
-	
+
 	@Override
 	@Transactional
 	public Keyword updateKeyword(Keyword keyword) {
 		Keyword existingKeyword = keywordRepository.findOne(keyword.getId());
 		if (existingKeyword == null) {
-			throw new InvalidArgumentException("Ključna reč sa id-em " + keyword.getId()
-					+ " ne postoji u bazi!");
+			throw new InvalidArgumentException("Ključna reč sa id-em "
+					+ keyword.getId() + " ne postoji u bazi!");
 		}
 		return keywordRepository.save(keyword);
 	}
-	
+
 	@Transactional
 	@Override
 	public Keyword addBannedKeyword(String value) {
 		value = value.toLowerCase();
 		value = value.replaceAll("\\s+", "");
-		
+
 		Keyword keyword = keywordRepository.findByValue(value);
-		if(keyword!=null){
+		if (keyword != null) {
 			keyword.setBanned(true);
 			return keywordRepository.save(keyword);
 		}
@@ -85,8 +86,9 @@ public class KeywordServiceImpl implements KeywordService {
 			throw new InvalidArgumentException("Ključna reč sa id-em " + id
 					+ " ne postoji u bazi!");
 		}
-		if(keywordRepository.numberOfConnectedTheses(id)>0){
-			throw new InvalidArgumentException("Ne može se obrisati ključna reč koja je povezana sa postojećim radovima");
+		if (keywordRepository.numberOfConnectedTheses(id) > 0) {
+			throw new InvalidArgumentException(
+					"Ne može se obrisati ključna reč koja je povezana sa postojećim radovima");
 		}
 		keywordRepository.delete(id);
 	}
@@ -105,8 +107,22 @@ public class KeywordServiceImpl implements KeywordService {
 			}
 		}
 		return words;
-	}	
+	}
 
+	@Override
+	@Transactional
+	public Integer deleteUnConnectedUnBannedKeywords() {
+		logger.info("Deleting unconnected and unbanned keywords.");
+		Integer numDeleted = 0;
+		try {
+			numDeleted = keywordRepository.deleteUnconnectedUnBannedKeywords();
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+		}
+		logger.info("Deleted " + numDeleted
+				+ " unconnected and unbanned keywords.");
+		return numDeleted;
+	}
 
 	// GETTERS AND SETTERS
 	public KeywordRepository getKeywordRepository() {
@@ -123,5 +139,5 @@ public class KeywordServiceImpl implements KeywordService {
 
 	public void setThesisService(ThesisService thesisService) {
 		this.thesisService = thesisService;
-	}	
+	}
 }
