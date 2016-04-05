@@ -22,7 +22,7 @@ public interface ThesisService {
 
 	public abstract List<Thesis> getAllThesis();
 	
-	public abstract Page<Thesis> advancedSearch(Integer pageNumber,Integer pageSize,String thesisName,List<String> tagValues,Long matchLimit, String courseName, String studiesName, String sortField);
+	public abstract Page<Thesis> advancedSearch(Integer pageNumber,Integer pageSize,String thesisName,List<String> tagValues,Long matchLimit, String courseName, String studiesName, String sortField, List<String> fieldValues,Long fieldsMatchLimit, List<String> descriptionKeys,Long descriptionKeyLimit);
 
 	public abstract Thesis addThesis(Thesis thesis);
 	

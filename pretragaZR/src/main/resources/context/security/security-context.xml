@@ -14,6 +14,7 @@
 		<security:intercept-url method="GET" pattern="/webapi/studies/**" access="permitAll" />
 		<security:intercept-url method="GET" pattern="/webapi/theses/**" access="permitAll" />
 		<security:intercept-url method="GET" pattern="/webapi/tags/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/fields-of-study/**" access="permitAll" />
 		<security:intercept-url method="POST" pattern="/webapi/theses/{thesisID}/comments" access="hasRole('ROLE_USER')" />
 		<security:intercept-url method="DELETE" pattern="/webapi/theses/comments/**" access="hasRole('ROLE_USER')" />
 		<security:intercept-url method="GET" pattern="/webapi/users/**" access="permitAll" />

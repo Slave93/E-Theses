@@ -62,19 +62,20 @@ public class ThesisServiceImpl implements ThesisService {
 
 	@Override
 	public Page<Thesis> advancedSearch(Integer pageNumber, Integer pageSize,
-			String thesisName, List<String> tagValues, Long matchLimit,
-			String courseName, String studiesName,
-			String sortField) {
+			String thesisName, List<String> tagValues, Long tagsMatchLimit,
+			String courseName, String studiesName, String sortField,
+			List<String> fieldValues, Long fieldsMatchLimit,
+			List<String> descriptionKeys, Long descriptionKeyLimit) {
 		if (pageSize == null) {
 			if (pageNumber == null) {
 				pageSize = thesisRepository.findAll().size();
-				if(pageSize<1){
-					pageSize=1;
+				if (pageSize < 1) {
+					pageSize = 1;
 				}
 			} else {
 				pageSize = DEFAULT_PAGE_SIZE;
 			}
-		}		
+		}
 		if (pageNumber == null) {
 			pageNumber = 0;
 		} else {
@@ -86,12 +87,20 @@ public class ThesisServiceImpl implements ThesisService {
 			thesisName = "%" + thesisName + "%";
 		}
 		if (tagValues == null || tagValues.isEmpty()) {
-			matchLimit = 0l;
+			tagsMatchLimit = 0l;
 		} else {
-			if (matchLimit == null) {
-				matchLimit = (long) tagValues.size();
+			if (tagsMatchLimit == null) {
+				tagsMatchLimit = (long) tagValues.size();
 			}
 		}
+		if (fieldValues == null || fieldValues.isEmpty()) {
+			fieldsMatchLimit = 0l;
+		} else {
+			if (fieldsMatchLimit == null) {
+				fieldsMatchLimit = (long) fieldValues.size();
+			}
+		}
+
 		PageRequest pageRequest = null;
 		if (sortField == null || sortField.equals("")) {
 			pageRequest = new PageRequest(pageNumber, pageSize, new Sort(
@@ -100,20 +109,58 @@ public class ThesisServiceImpl implements ThesisService {
 			pageRequest = new PageRequest(pageNumber, pageSize, new Sort(
 					Sort.Direction.DESC, sortField).and(new Sort(
 					Sort.Direction.DESC, "datePosted")));
-		}		
+		}
 
 		try {
 			if (courseName != null && courseName != "") {
-				return thesisRepository.findByNameLikeTagsAndCoursePagable(
-						pageRequest, thesisName, tagValues, matchLimit,
-						courseName);
+				if (descriptionKeys == null || descriptionKeys.isEmpty()) {
+				return thesisRepository
+							.findByNameLikeTagsFieldsAndCoursePagable(
+									pageRequest, thesisName, tagValues,
+									tagsMatchLimit, courseName, fieldValues,
+									fieldsMatchLimit);
+				}
+				if (descriptionKeyLimit == null) {
+					descriptionKeyLimit = (long) descriptionKeys.size();
+				}
+				return thesisRepository
+						.findByNameLikeTagsFieldsCourseAndDescriptioinPagable(
+								pageRequest, thesisName, tagValues,
+								tagsMatchLimit, courseName, fieldValues,
+								fieldsMatchLimit, descriptionKeys,
+								descriptionKeyLimit);
 			} else if (studiesName != null && studiesName != "") {
-				return thesisRepository.findByNameLikeTagsAndStudiesPagable(
-						pageRequest, thesisName, tagValues, matchLimit,
-						studiesName);
+				if (descriptionKeys == null || descriptionKeys.isEmpty()) {
+					return thesisRepository
+							.findByNameLikeTagsFieldsAndStudiesPagable(
+									pageRequest, thesisName, tagValues,
+									tagsMatchLimit, studiesName, fieldValues,
+									fieldsMatchLimit);
+				}
+				if (descriptionKeyLimit == null) {
+					descriptionKeyLimit = (long) descriptionKeys.size();
+				}
+				return thesisRepository
+						.findByNameLikeTagsFieldsStudiesAndDescriptionPagable(
+								pageRequest, thesisName, tagValues,
+								tagsMatchLimit, studiesName, fieldValues,
+								fieldsMatchLimit, descriptionKeys,
+								descriptionKeyLimit);
 			} else {
-				return thesisRepository.findByNameLikeAndTagsPagable(
-						pageRequest, thesisName, tagValues, matchLimit);
+				if (descriptionKeys == null || descriptionKeys.isEmpty()) {
+					return thesisRepository.findByNameLikeTagsAndFieldsPagable(
+							pageRequest, thesisName, tagValues, tagsMatchLimit,
+							fieldValues, fieldsMatchLimit);
+				}
+				if (descriptionKeyLimit == null) {
+					descriptionKeyLimit = (long) descriptionKeys.size();
+				}
+				return thesisRepository
+						.findByNameLikeTagsFieldsAndDescriptionPagable(
+								pageRequest, thesisName, tagValues,
+								tagsMatchLimit, fieldValues, fieldsMatchLimit,
+								descriptionKeys, descriptionKeyLimit);
+
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -128,7 +175,7 @@ public class ThesisServiceImpl implements ThesisService {
 		if (thesisRepository.findByName(thesis.getName()) != null) {
 			throw new InvalidArgumentException("Rad " + thesis.getName()
 					+ "već postoji u bazi!");
-		}		
+		}
 		return thesisRepository.save(thesis);
 	}
 
@@ -145,7 +192,7 @@ public class ThesisServiceImpl implements ThesisService {
 				throw new InvalidArgumentException("Rad " + thesis.getName()
 						+ "već postoji u bazi!");
 			}
-		}		
+		}
 		return thesisRepository.save(thesis);
 	}
 
@@ -158,8 +205,8 @@ public class ThesisServiceImpl implements ThesisService {
 					+ " ne postoji u bazi!");
 		}
 		thesisRepository.delete(thesis);
-	}	
-	
+	}
+
 	@Override
 	public TFile addFile(Long thesisId, MultipartFile file) {
 		if (file.isEmpty()) {
@@ -359,7 +406,7 @@ public class ThesisServiceImpl implements ThesisService {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	public CommentRepository getCommentRepository() {
 		return commentRepository;
 	}

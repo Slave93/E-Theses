@@ -17,21 +17,30 @@ app.controller('UsersController', ['$scope', '$rootScope', 'UserService', 'Authe
                 .withDisplayLength(10);
         //END INIT
 
-
+        $scope.newUser;
         //USER OPERATIONS
         $scope.updateUser = function () {
 
-            UserService.updateUser($scope.newUserId, $scope.newUserName, $scope.newUserLastName, $scope.newUserTranscript, $scope.newUserCourseName, $scope.newUserBiography, $scope.newUserInterests, function (response) {
 
+            if (!$scope.newUser.course) {
+                $scope.newUserCourseName = "";
+            } else {
+                $scope.newUserCourseName = $scope.newUser.course.name;
+            }
+            UserService.updateUser($scope.newUser.id, $scope.newUser.firstName, $scope.newUser.lastName, $scope.newUser.studentsTranscript, $scope.newUserCourseName, $scope.newUser.biography, $scope.newUser.interests, function (response) {
                 UserService.grantAdmin($scope.newUserId, $scope.admin, function (response) {
                     $scope.users.splice(findIndexById($scope.users, $scope.newUserId), 1);
                     $scope.users.push(response);
                 });
-                $scope.newUserName = "";
-                $scope.newUserLastName = "";
-                $scope.newUserTranscript = "";
-                $scope.newUserBiography = "";
-                $scope.newUserInterests = "";
+
+
+                /*
+                 $scope.newUserName = "";
+                 $scope.newUserLastName = "";
+                 $scope.newUserTranscript = "";
+                 $scope.newUserBiography = "";
+                 $scope.newUserInterests = "";
+                 */
             });
         };
 
@@ -66,54 +75,35 @@ app.controller('UsersController', ['$scope', '$rootScope', 'UserService', 'Authe
             CourseService.getAllCourses(function (response) {
                 $scope.courses = response;
             });
-            $scope.newUserId = user.id;
-            $scope.newUserName = user.firstName;
-            $scope.newUserLastName = user.lastName;
-            if (user.course) {
-                $scope.newUserCourseName = user.course.name;
-            }
-            $scope.newUserTranscript = user.studentsTranscript;
-            $scope.newUserBiography = user.biography;
-            $scope.newUserInterests = user.interests;
-            $scope.admin = user.admin;
+            $scope.newUser = user;
+            /*$scope.newUserId = user.id;
+             $scope.newUserName = user.firstName;
+             $scope.newUserLastName = user.lastName;
+             if (user.course) {
+             $scope.newUserCourseName = user.course.name;
+             }
+             $scope.newUserTranscript = user.studentsTranscript;
+             $scope.newUserBiography = user.biography;
+             $scope.newUserInterests = user.interests;
+             $scope.admin = user.admin;
+             */
         }
 
         $scope.reinit = function () {
-            $scope.infoUserName = "";
-            $scope.infoUserLastName = "";
-            $scope.infoUserEmail = "";
-            $scope.infoUserThesisId = "";
-            $scope.infoUserThesisName = "";
-            $scope.infoUserTranscript = "";
-            $scope.infoUserBiography = "";
-            $scope.infoUserInterests = "";
-            $scope.infoUserCourseName = "";
+            $scope.infoUser = {};
         }
 
         $scope.getInfoModalInit = function (user) {
-            
-            $scope.infoUserName = user.firstName;
-            $scope.infoUserLastName = user.lastName;
-            $scope.infoUserEmail = user.email;
-            
-            if (user.thesis) {
-                $scope.infoUserThesisId = user.thesis.id;
-                $scope.infoUserThesisName = user.thesis.name;
-            }
-            if (user.course) {
-                $scope.infoUserCourseName = user.course.name;
-            }
-            $scope.infoUserTranscript = user.studentsTranscript;
-            $scope.infoUserBiography = user.biography;
-            $scope.infoUserInterests = user.interests;
 
-        }
+            $scope.infoUser = user;
+            console.log($scope.infoUser.theses);
+        };
 
         var findIndexById = function (collection, id) {
             for (i = 0; i < collection.length; i++) {
-                if (collection[i].id == id) {
+                if (collection[i].id === id) {
                     return i;
                 }
             }
-        }
+        };
     }]);

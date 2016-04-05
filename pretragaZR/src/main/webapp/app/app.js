@@ -52,11 +52,11 @@ app.run(['$rootScope', '$location', '$http', '$cookieStore', 'UserService', 'Stu
         StudiesService.getAllStudies(function (response) {
             $rootScope.studies = response;
         });
-        
+
         //fetch 5 most viewed theses
         var numberOfTopItems = 5;
         var pageNumber = 1;
-        ThesisService.getThesesPage(pageNumber, numberOfTopItems, null, [], null, null, null, null, 'viewCount', function (response) {
+        ThesisService.getThesesPage(pageNumber, numberOfTopItems, null, [], null, null, null, 'viewCount', null, null, null, null, function (response) {
             $rootScope.topTheses = response.content;
         });
 

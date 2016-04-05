@@ -1,14 +1,17 @@
-<!--script>
-    $(document).ready(function () {
-
-        window.onscroll = function (ev) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                $('#load-more-button').click();
+<script>
+    $(function () {
+        $("#slider-range-min").slider({
+            range: "min",
+            value: 37,
+            min: 1,
+            max: 700,
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.value);
             }
-        };
+        });
+        $("#amount").val("$" + $("#slider-range-min").slider("value"));
     });
-
-</script-->
+</script>
 <div class="col-md-12">
     <h1 class="page-header">
         Napredna pretraga
@@ -16,22 +19,22 @@
 </div>
 
 <div class="col-md-8 ">
-    <div class="alert alert-dismissable alert-warning" ng-show="noResults">Ne postoje radovi koji odgovaraju unetim kriterijumima.</div>
+    <div class="alert alert-dismissable alert-warning" ng-show="noResults">Ne postoje radovi koji odgovaraju unetom kriterijumu pretrage.</div>
     <!-- THESIS -->
-  <div class="panel panel-default" ng-repeat="thesis in theses">
+    <div class="panel panel-default" ng-repeat="thesis in theses">
         <div class="panel-heading">
             <h3 class="text-primary"> <a href="#rad/{{thesis.id}}">{{thesis.name}}</a></h3>
         </div>
         <div class="panel-body" style="padding:5px;">
             <table class="table table-hover" style="margin-bottom: 5px">
-                    <tr>
-                        <td><span class="fa fa-user"></span> Student</td>
-                        <td>{{thesis.user.firstName && thesis.user.lastName && thesis.user.firstName + " " + thesis.user.lastName|| thesis.user.email|| thesis.userName}}</td>
-                    </tr>
-                    <tr>
-                        <td><span class="glyphicon glyphicon-time"></span> Datum: </td>
-                        <td>{{thesis.datePosted| date: 'dd.MM.yyyy'}}</td>
-                    </tr>
+                <tr>
+                    <td><span class="fa fa-user"></span> Student</td>
+                    <td>{{thesis.user.firstName && thesis.user.lastName && thesis.user.firstName + " " + thesis.user.lastName|| thesis.user.email|| thesis.userName}}</td>
+                </tr>
+                <tr>
+                    <td><span class="glyphicon glyphicon-time"></span> Datum: </td>
+                    <td>{{thesis.datePosted| date: 'dd.MM.yyyy'}}</td>
+                </tr>
             </table>
         </div>
         <div class="panel-footer">
@@ -50,22 +53,30 @@
             <input class="form-control" ng-model="searchKeyWord">
         </div>
         <div class="form-group">
-            <label>Naziv predmeta</label>
-            <select class="form-control" ng-options="subject.name as subject.name for subject in subjects" ng-model="searchSubject">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
             <label>Naziv smera</label>
             <select class="form-control" ng-options="course.name as course.name for course in courses" ng-model="searchCourse">
-                 <option value=""></option>
+                <option value=""></option>
             </select>
         </div>
         <div class="form-group">
             <label>Nivo studija</label>
             <select class="form-control" ng-options="study.name as study.name for study in studies" ng-model="searchStudyLevel">
-                 <option value=""></option>
+                <option value=""></option>
             </select>
+        </div>
+        <div class="form-group">
+            <label>Ključne reči u opisu</label>
+            <textarea class="form-control" rows = "10" ng-model="newThesisDescription"></textarea>
+            <label>Procenat reči u opisu</label>
+            <input ng-model="descriptionMatchLimit"  type='text'/>
+        </div>
+        <div class="form-group">
+            <label>Oblasti</label>
+            <div class="checkbox" ng-repeat="field in fields">
+                <label>
+                    <input type="checkbox" ng-model="field.checked" value="{{field.value}}" > <span class="text-primary">{{field.name}}</span>
+                </label>
+            </div>
         </div>
         <div class="form-group">
             <label>Tagovi</label>
@@ -78,6 +89,7 @@
 
         <button type="submit" class="btn btn-primary" data-dismiss = "modal" ng-click="performSearch()"><span class="fa fa-search"></span> Pretrazi</button>
     </form>
+
 </div> 
 
 

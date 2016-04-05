@@ -97,10 +97,14 @@ public class ThesisResource {
 			@RequestParam(value = "matchLimit", required = false) Long matchLimit,
 			@RequestParam(value = "courseName", required = false) String courseName,
 			@RequestParam(value = "studiesName", required = false) String studiesName,
-			@RequestParam(value = "sortField", required = false) String sortField) {
+			@RequestParam(value = "sortField", required = false) String sortField,
+			@RequestParam(value = "fieldValues", required = false) List<String> fieldValues,
+			@RequestParam(value = "fieldMatchLimit", required = false) Long fieldMatchLimit,
+			@RequestParam(value = "descriptionKeys", required = false) List<String> descriptioinKeys,
+			@RequestParam(value = "descriptionMatchLimit", required = false) Long descriptionMatchLimit) {
 		Page<Thesis> thesisPage = thesisService.advancedSearch(pageNumber,
 				pageSize, thesisName, tagValues, matchLimit, courseName,
-				studiesName, sortField);
+				studiesName, sortField,fieldValues,fieldMatchLimit,descriptioinKeys,descriptionMatchLimit);
 		return RestFactory.CreateThesisPageResponse(thesisPage);
 	}
 

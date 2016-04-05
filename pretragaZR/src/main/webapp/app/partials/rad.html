@@ -28,8 +28,8 @@
                                 </tr>
                                 <tr>
                                 <tr>
-                                    <td>Predmet</td>
-                                    <td>{{thesis.subject.name}}</td>
+                                    <td>Smer</td>
+                                    <td>{{thesis.course.name}}</td>
                                 </tr>
                                 <tr>
                                     <td>Mentor</td>
@@ -38,6 +38,12 @@
                                 <tr>
                                     <td>Ocena</td>
                                     <td>{{thesis.grade}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Oblasti</td>
+                                    <td><span  ng-repeat="field in thesis.fieldsOfStudy"><!--a href="#/advanced_search?tag={{tag.value}}"> #{{tag.value}} </a-->{{" " + field.name}}</span>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Opis</td>
@@ -58,7 +64,7 @@
                 </div>
             </div>
             <div class="panel-footer" ng-show="loggedIn">
-                <h4>Vas komentar</h4>
+                <h4>Vaš komentar</h4>
                 <form role="form">
                     <div class="form-group">
                         <textarea class="form-control" rows="3" ng-model="message"></textarea>

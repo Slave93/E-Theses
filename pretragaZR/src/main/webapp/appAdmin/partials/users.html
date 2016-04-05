@@ -24,7 +24,6 @@
                                         <th>Email adresa</th>
                                         <th>Ime i prezime</th>
                                         <th>Broj indeksa</th>
-                                        <th>Zavrsni rad</th>
                                         <th>Smer</th>
                                         <th>Administrator</th>
                                         <th>Operacije</th>
@@ -35,7 +34,6 @@
                                         <td>{{user.email}}</td>
                                         <td>{{user.firstName && user.lastName && user.firstName + " " + user.lastName||user.firstName||user.lastName||""}}</td>
                                         <td>{{user.studentsTranscript}}</td>
-                                        <td> {{user.thesis.name}} </td>
                                         <td>{{user.course.name}}</td>
                                         <td>{{user.admin}}</td>
                                         <td>
@@ -70,34 +68,34 @@
                     <form role="form" >
                         <div class="form-group">
                             <label>Ime</label>
-                            <input class="form-control" ng-model="newUserName">
+                            <input class="form-control" ng-model="newUser.firstName">
                         </div>
                         <div class="form-group">
                             <label>Prezime</label>
-                            <input class="form-control" ng-model="newUserLastName">
+                            <input class="form-control" ng-model="newUser.lastName">
                         </div>
                         <div class="form-group">
                             <label> Broj indeksa</label>
-                            <input class="form-control" ng-model="newUserTranscript">
+                            <input class="form-control" ng-model="newUser.studentsTranscript">
                         </div>
                         <div class="form-group">
                             <label>Uloga</label>
-                            <select  class="form-control"  ng-model="admin">
-                                <option ng-selected = "admin == false" value="false"> Korisnik</option>
-                                <option value="true" ng-selected="admin"> Administrator </option>
+                            <select  class="form-control"  ng-model="newUser.admin">
+                                <option ng-selected="newUser.admin == false" value="false"> Korisnik</option>
+                                <option value="true" ng-selected="newUser.admin"> Administrator </option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Smer</label>
-                            <select class="form-control" ng-options="course.name as course.name for course in courses" ng-model="newUserCourseName"></select>
+                            <select class="form-control" ng-options="course.name as course.name for course in courses" ng-model="newUser.course.name"></select>
                         </div>
                         <div class="form-group">
                             <label>Interesovanja</label>
-                            <textarea class="form-control" rows="3" ng-model="newUserInterests"></textarea>
+                            <textarea class="form-control" rows="3" ng-model="newUser.interests"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Biografija</label>
-                            <textarea class="form-control" rows="3" ng-model="newUserBiography"></textarea>
+                            <textarea class="form-control" rows="3" ng-model="newUser.biography"></textarea>
                         </div>
                         <!--button class="btn btn-danger">Ukloni fotografiju</button--> 
                         <button type="submit" class="btn btn-info" data-dismiss="modal" ng-click="updateUser()">Izmeni</button>
@@ -114,7 +112,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" >&times;</button>
-                    <h4 class="modal-title">Izmena korisnika</h4>
+                    <h4 class="modal-title">Dodavanje korisnika</h4>
                 </div>
                 <div class="col-md-offset-1 col-md-10">
                     <br />
@@ -138,7 +136,6 @@
                 </div>
                 <div class="modal-footer"></div>
             </div>
-
         </div>
     </div>
 
@@ -147,7 +144,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">{{infoUserName && infoUserLastName && infoUserName + " " + infoUserLastName||infoUserEmail}}</h4>
+                    <h4 class="modal-title">{{infoUser.firstName && infoUser.lastName && infoUser.firstName + " " + infoUser.lastName||infoUser.email}}</h4>
                 </div>
 
                 <!--div class="col-lg-3 " align="center">
@@ -156,25 +153,25 @@
                     <table class="table table-user-information">
                         <tbody>
                             <tr>
-                                <td>Smer:</td>
-                                <td>{{infoUserCourseName}}</td>
+                                <td>Smer</td>
+                                <td>{{infoUser.course.name}}</td>
+                            </tr>
+                            <tr ng-repeat="thesis in infoUser.theses">
+                                <td>Završni rad</td>
+                                <td>{{thesis.name}}</td>
                             </tr>
                             <tr>
-                                <td>Zavrsni rad: </td>
-                                <td>{{infoUserThesisName}}</td>
-                            </tr>
                             <tr>
-                            <tr>
-                                <td>Broj indeksa:</td>
+                                <td>Broj indeksa</td>
                                 <td>{{infoUserTranscript}}</td>
                             </tr>
                             <tr>
-                                <td>Interesovanja:</td>
+                                <td>Interesovanja</td>
                                 <td>{{infoUserInterests}}
                                 </td>
                             </tr>
                             <tr>
-                                <td>Biografija:</td>
+                                <td>Biografija</td>
                                 <td>
                                     <p>{{infoUserBiography}}</p>
                                 </td>

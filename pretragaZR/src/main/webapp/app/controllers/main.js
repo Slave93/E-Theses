@@ -3,24 +3,24 @@ app.controller('MainController', ['$scope', '$rootScope', 'ThesisService', funct
 
         $scope.initialNumberOfItemsPerLoad = 5;
         $scope.numberOfItemsPerLoad = 5;
-        
+
         $scope.theses = [];
         $scope.pageNumber = 1;
-        
-        ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, null, null, null, null, null, null, null, function (response) {
+
+        ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, null, null, null, null, null, null, null, null, null, null, function (response) {
             if (response.content.length === 0) {
                 $scope.noResults = true;
             }
             $scope.theses = response.content;
-            if($scope.theses.length ===0){
-            	$scope.noResults = true;
+            if ($scope.theses.length === 0) {
+                $scope.noResults = true;
             }
             $scope.totalPages = response.totalPages;
             $scope.pageNumber++;
         });
 
         $scope.loadMore = function () {
-            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, null, null, null, null, null, null, null, function (response) {
+            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, null, null, null, null, null, null, null, null, null, null, function (response) {
                 for (i = 0; i < response.content.length; i++) {
                     $scope.theses.push(response.content[i]);
                 }

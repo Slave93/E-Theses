@@ -11,7 +11,7 @@
 </script-->
 <div class="col-md-12">
     <h1 class="page-header">
-        Zavrsni radovi
+        Završni radovi
     </h1>
 </div>
 
@@ -21,7 +21,7 @@
     <!-- THESIS -->
     <div class="panel panel-default" ng-repeat="thesis in theses">
         <div class="panel-heading">
-            <a href="#rad/{{thesis.id}}">{{thesis.name}}</a>
+            <a href="#rad/{{thesis.id}}">{{thesis.name}} - {{thesis.course.name}}</a>
         </div>
         <div class="panel-body" style="padding:5px;">
             <table class="table table-hover" style="margin-bottom: 5px">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div>
-        <button id = "load-more-button" class="btn btn-default btn-block " ng-click="loadMore()" ng-show="pageNumber <= totalPages"><span class="fa fa-refresh fa-spin"></span> Ucitaj jos</button>
+        <button id = "load-more-button" class="btn btn-default btn-block " ng-click="loadMore()" ng-show="pageNumber <= totalPages"><span class="fa fa-refresh fa-spin"></span> Učitaj jos</button>
         <!--button id = "load-more-button" class="btn btn-default btn-block " ng-click="loadMore()" ng-show="lastVisible < allTheses.length - 1"><span class="fa fa-refresh fa-spin"></span> Ucitaj jos</button-->
     </div>
 </div>

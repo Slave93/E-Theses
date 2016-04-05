@@ -1,5 +1,5 @@
 
-app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', 'StudiesService', 'SubjectService', 'TagService', 'DTOptionsBuilder', function ($scope, $rootScope, CourseService, StudiesService, SubjectService, TagService, DTOptionsBuilder) {
+app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', 'StudiesService', 'FieldOfStudyService', 'TagService', 'DTOptionsBuilder', function ($scope, $rootScope, CourseService, StudiesService, FieldOfStudyService, TagService, DTOptionsBuilder) {
 
         //INIT
         $scope.newStudyLevelName = "";
@@ -8,9 +8,8 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
         $scope.newCourseName = "";
         $scope.newCourseNameShort = "";
         $scope.newCourseStudies = [];
-        
-        $scope.newSubjectName = "";
-        $scope.newSubjectCourses = [];
+
+        $scope.newFieldName = "";
 
         StudiesService.getAllStudies(function (studies) {
             $scope.studies = studies;
@@ -20,9 +19,10 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
             $scope.courses = courses;
         });
 
-        SubjectService.getAllSubjects(function (subjects) {
-            $scope.subjects = subjects;
+        FieldOfStudyService.getAllFields(function (fields) {
+            $scope.fields = fields;
         });
+
 
         TagService.getAllTags(function (tags) {
             $scope.tags = tags;
@@ -32,7 +32,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
                 .withPaginationType('full_numbers')
                 .withDisplayLength(10);
         //END INIT
-
 
         //STUDIES OPERATIONS
 
@@ -60,6 +59,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
                 });
             }
         }
+
 
         //COURSE OPERATIONS
 
@@ -104,52 +104,31 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
             }
         }
 
-        //SUBJECT OPERATIONS
+//Fields OPERATIONS
 
-        $scope.createSubject = function () {
-            for (i = 0; i < $scope.courses.length; i++) {
-                var item = $scope.courses[i];
-                if (item.checked) {
-                    $scope.newSubjectCourses.push($scope.courses[i].id);
-                    item.checked = false;
-                }
-            }
-            SubjectService.createSubject($scope.newSubjectName, $scope.newSubjectCourses, function (response) {
-                $scope.subjects.push(response);
-                $scope.newSubjectName = "";
-                $scope.newSubjectCourses = [];
-                $rootScope.errorMessage = "";
+        $scope.createField = function () {
+            FieldOfStudyService.createField($scope.newFieldName, function (response) {
+                $scope.fields.push(response);
+                $scope.newFieldName = "";
             });
         };
 
-        $scope.updateSubject = function () {
-            for (i = 0; i < $scope.courses.length; i++) {
-                var item = $scope.courses[i];
-                if (item.checked) {
-                    $scope.newSubjectCourses.push($scope.courses[i].id);
-                    item.checked = false;
-                }
-            }
-
-            SubjectService.updateSubject($scope.updateSubjectId, $scope.updateSubjectName, $scope.newSubjectCourses, function (response) {
-                $scope.subjects.splice(findIndexById($scope.subjects, $scope.updateSubjectId), 1);
-                $scope.subjects.push(response);
-                $scope.updateSubjectName = "";
-                $scope.newSubjectCourses = [];
-                $rootScope.errorMessage = "";
+        $scope.updateField = function () {
+            FieldOfStudyService.updateField($scope.updateFieldId, $scope.updateFieldName, function (response) {
+                $scope.fields.splice(findIndexById($scope.fields, $scope.updateFieldId), 1);
+                $scope.fields.push(response);
+                $scope.updateFieldId = "";
+                $scope.updateFieldName = "";
             });
         };
 
-
-        $scope.deleteSubject = function (subject) {
-            if (confirm("Da li zelite da obrisete predmet " + subject.name + " ?")) {
-                SubjectService.deleteSubject(subject.id, function (response) {
-
-                    $scope.subjects.splice(findIndexById($scope.subjects, subject.id), 1);
+        $scope.deleteField = function (field) {
+            if (confirm("Da li zelite da obrisete oblast " + field.name + " ?")) {
+                FieldOfStudyService.deleteField(field.id, function (response) {
+                    $scope.fields.splice(findIndexById($scope.fields, field.id), 1);
                 });
             }
-        };
-
+        }
 
         //TAG OPERATIONS
         $scope.deleteTag = function (tag) {
@@ -161,12 +140,16 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
         };
 
         //HELPER METHODS
-
+        $scope.editFieldModalInit = function (id, name) {
+            $scope.updateFieldId = id;
+            $scope.updateFieldName = name;
+        }
         $scope.editStudyLevelModalInit = function (study) {
             $scope.updateStudyLevelId = study.id;
             $scope.updateStudyLevelName = study.name;
             $scope.updateStudyLevelNameShort = study.nameShort;
         };
+
 
         $scope.editCourseModalInit = function (course) {
             for (i = 0; i < $scope.studies.length; i++) {
@@ -181,17 +164,6 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
             $scope.updateCourseShortName = course.nameShort;
         };
 
-        $scope.editSubjectModalInit = function (id, subjectName, subjectCourses) {
-            for (i = 0; i < $scope.courses.length; i++) {
-                for (j = 0; j < subjectCourses.length; j++) {
-                    if ($scope.courses[i].id === subjectCourses[j].id) {
-                        $scope.courses[i].checked = true;
-                    }
-                }
-            }
-            $scope.updateSubjectId = id;
-            $scope.updateSubjectName = subjectName;
-        };
 
         /*$scope.getInfo = function (id) {
          index = findIndexById($scope.courses, id);

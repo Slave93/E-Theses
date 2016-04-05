@@ -1,5 +1,5 @@
 
-app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParams', 'ThesisService', 'StudiesService', 'CourseService', 'SubjectService', 'TagService', function ($scope, $rootScope, $routeParams, ThesisService, StudiesService, CourseService, SubjectService, TagService) {
+app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParams', 'ThesisService', 'StudiesService', 'CourseService', 'TagService', "FieldOfStudyService", function ($scope, $rootScope, $routeParams, ThesisService, StudiesService, CourseService, TagService, FieldOfStudyService) {
 
         //init the lists
         StudiesService.getAllStudies(function (response) {
@@ -8,8 +8,11 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         CourseService.getAllCourses(function (response) {
             $scope.courses = response;
         });
-        SubjectService.getAllSubjects(function (response) {
-            $scope.subjects = response;
+        FieldOfStudyService.getAllFields(function (response) {
+            $scope.fields = response;
+            for (i = 0; i < $scope.fields.length; i++) {
+                $scope.fields[i].checked = false;
+            }
         });
 
         TagService.getAllTags(function (response) {
@@ -30,21 +33,28 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         $scope.searchPerformed = false;
 
         $scope.searchStudyLevel = "";
-        $scope.searchSubject = "";
         $scope.searchCourse = "";
         $scope.searchTags = [];
         $scope.searchKeyWord = "";
+        $scope.searchFields = [];
         $scope.theses = [];
+        $scope.newThesisDescription = "";
+        $scope.descriptionMatchLimit = 1;
 
         if ($scope.tags) {
             for (i = 0; i < $scope.tags.length; i++) {
                 $scope.tags[i].checked = false;
             }
         }
+        if ($scope.fields) {
+            for (i = 0; i < $scope.fields.length; i++) {
+                $scope.fields[i].checked = false;
+            }
+        }
 
         if ($routeParams.expression) {
             $scope.expression = $routeParams.expression;
-            ThesisService.getThesesPage(null, null, $scope.expression, [], null, null, null, null, null, function (response) {
+            ThesisService.getThesesPage(null, null, $scope.expression, [], null, null, null, null, null, null, null, null, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
                 }
@@ -56,7 +66,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         if ($routeParams.courseName) {
             $scope.searchCourseName = $routeParams.courseName;
-            ThesisService.getThesesPage(null, null, null, [], null, null, $scope.searchCourseName, null, null, function (response) {
+            ThesisService.getThesesPage(null, null, null, [], null, null, $scope.searchCourseName, null, null, null, null, null, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
                 }
@@ -67,7 +77,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         if ($routeParams.tag) {
             $scope.searchTag = [$routeParams.tag];
-            ThesisService.getThesesPage(null, null, null, $scope.searchTag, null, null, null, null, null, function (response) {
+            ThesisService.getThesesPage(null, null, null, $scope.searchTag, null, null, null, null, null, null, null, null, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
                 }
@@ -85,6 +95,37 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
             $scope.searchTags = [];
             $scope.theses = [];
             $scope.pageNumber = 1;
+
+
+            $scope.searchFields = [];
+            for (i = 0; i < $scope.fields.length; i++) {
+                if ($scope.fields[i].checked) {
+                    $scope.searchFields.push($scope.fields[i].name);
+                }
+            }
+
+            
+
+            $scope.newThesisDescription = $scope.newThesisDescription.trim();
+            $scope.newThesisDescription = $scope.newThesisDescription.split(' ');
+            $scope.newThesisDescriptionTrimmed = [];
+            for (i = 0; i < $scope.newThesisDescription.length; i++) {
+                $scope.newThesisDescription[i] = $scope.newThesisDescription[i].trim();
+                if ($scope.newThesisDescription[i] !== "") {
+                    $scope.newThesisDescriptionTrimmed.push($scope.newThesisDescription[i]);
+                }
+            }
+
+            $scope.keywords = $scope.newThesisDescriptionTrimmed;
+            if ($scope.newThesisDescription.length === 1 && $scope.newThesisDescription[0] === "") {
+                $scope.keywords = [];
+            }
+
+       
+
+            $scope.descriptionMatchLimit = Math.ceil(($scope.descriptionMatchLimit / 100) * $scope.keywords.length);
+
+
             if ($scope.tags) {
                 for (i = 0; i < $scope.tags.length; i++) {
                     if ($scope.tags[i].checked === true) {
@@ -92,7 +133,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                     }
                 }
             }
-            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchSubject, $scope.searchCourse, $scope.searchStudyLevel, null, function (response) {
+            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchCourse, $scope.searchStudyLevel, null, $scope.searchFields, null, $scope.keywords, $scope.descriptionMatchLimit, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
                 }
@@ -105,7 +146,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         };
         $scope.loadMore = function () {
 
-            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, null, null, $scope.searchSubject, $scope.searchCourse, $scope.searchStudyLevel, null, function (response) {
+            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchCourse, $scope.searchStudyLevel, null, $scope.searchFields, null, $scope.keywords, $scope.descriptionMatchLimit, function (response) {
                 for (i = 0; i < response.content.length; i++) {
                     $scope.theses.push(response.content[i]);
                 }

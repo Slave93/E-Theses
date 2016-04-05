@@ -206,39 +206,31 @@ app.factory('CourseService', ['$http', '$rootScope', function ($http, $rootScope
         };
         return service;
     }]);
-app.factory('SubjectService', ['$http', '$rootScope', function ($http, $rootScope) {
+app.factory('FieldOfStudyService', ['$http', '$rootScope', function ($http, $rootScope) {
         var service = {};
-        service.getAllSubjects = function (callback) {
-            $http.get($rootScope.webApiPath + 'subjects', {}).success(
+        service.getAllFields = function (callback) {
+            $http.get($rootScope.webApiPath + 'fields-of-study', {}).success(
                     function (response) {
                         callback(response);
                     });
         };
-        service.getSubjectById = function (id, callback) {
-            $http.get($rootScope.webApiPath + 'subjects/' + id, {}).success(
-                    function (response) {
-                        callback(response);
-                    });
-        };
-        service.createSubject = function (name, courseIDs, callback) {
-            $http.post($rootScope.webApiPath + 'subjects/', {
-                name: name,
-                courseIDs: courseIDs
+        service.createField = function (name, callback) {
+            $http.post($rootScope.webApiPath + 'fields-of-study/', {
+                name: name
             }).success(
                     function (response) {
                         callback(response);
                     });
         };
-        service.deleteSubject = function (id, callback) {
-            $http.delete($rootScope.webApiPath + 'subjects/' + id, {}).success(
+        service.deleteField = function (id, callback) {
+            $http.delete($rootScope.webApiPath + 'fields-of-study/' + id, {}).success(
                     function (response) {
                         callback(response);
                     });
         };
-        service.updateSubject = function (id, name, courseIDs, callback) {
-            $http.put($rootScope.webApiPath + 'subjects/' + id, {
-                name: name,
-                courseIDs: courseIDs
+        service.updateField = function (id, name, callback) {
+            $http.put($rootScope.webApiPath + 'fields-of-study/' + id, {
+                name: name
             }).success(
                     function (response) {
                         callback(response);
@@ -250,11 +242,22 @@ app.factory('ThesisService', [
     '$http', '$rootScope',
     function ($http, $rootScope) {
         var service = {};
-        service.getThesesPage = function (pageNumber, pageSize, thesisName, tagValues, matchLimit, subjectName, courseName, studiesName, sortField, callback) {
+        service.getThesesPage = function (pageNumber, pageSize, thesisName, tagValues, matchLimit, courseName, studiesName, sortField, fieldsOfStudy, matchLimit, descriptionKeys, decriptionMatchLimit, callback) {
+            console.log(arguments);
             var url = $rootScope.webApiPath + "theses/advanced_search?";
             if (tagValues) {
                 for (i = 0; i < tagValues.length; i++) {
                     url += 'tagValues=' + tagValues[i] + "&";
+                }
+            }
+            if (fieldsOfStudy) {
+                for (i = 0; i < fieldsOfStudy.length; i++) {
+                    url += 'fieldValues=' + fieldsOfStudy[i] + "&";
+                }
+            }
+            if (descriptionKeys) {
+                for (i = 0; i < descriptionKeys.length; i++) {
+                    url += 'descriptionKeys=' + descriptionKeys[i] + "&";
                 }
             }
             $http({
@@ -265,10 +268,11 @@ app.factory('ThesisService', [
                     pageSize: pageSize,
                     thesisName: thesisName,
                     matchLimit: matchLimit,
-                    subjectName: subjectName,
                     courseName: courseName,
                     studiesName: studiesName,
-                    sortField: sortField
+                    sortField: sortField,
+                    fieldMatchLimit: matchLimit,
+                    descriptionMatchLimit: decriptionMatchLimit
                 }
             }).success(
                     function (response) {
@@ -302,16 +306,17 @@ app.factory('ThesisService', [
                         callback(response);
                     });
         };
-        service.createThesis = function (name, grade, defenseDate, description, subjectName, userId, mentorId, tags, userName, userEmail, callback) {
+        service.createThesis = function (name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, callback) {
             $http.post($rootScope.webApiPath + 'theses/', {
                 name: name,
                 grade: grade,
                 defenseDate: defenseDate,
                 description: description,
-                subjectName: subjectName,
+                courseName: courseName,
                 userId: userId,
                 mentorId: mentorId,
                 tags: tags,
+                fieldsOfStudy: fields,
                 userName: userName,
                 userEmail: userEmail
             }).success(
@@ -319,16 +324,17 @@ app.factory('ThesisService', [
                         callback(response);
                     });
         };
-        service.updateThesis = function (id, name, grade, defenseDate, description, subjectName, userId, mentorId, tags, userName, userEmail, callback) {
+        service.updateThesis = function (id, name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, callback) {
             $http.put($rootScope.webApiPath + 'theses/' + id, {
                 name: name,
                 grade: grade,
                 defenseDate: defenseDate,
                 description: description,
-                subjectName: subjectName,
+                courseName: courseName,
                 userId: userId,
                 mentorId: mentorId,
                 tags: tags,
+                fieldsOfStudy: fields,
                 userName: userName,
                 userEmail: userEmail
             }).success(
