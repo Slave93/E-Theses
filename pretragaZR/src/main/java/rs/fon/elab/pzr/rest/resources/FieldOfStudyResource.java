@@ -44,7 +44,7 @@ public class FieldOfStudyResource {
 			@RequestBody FieldOfStudyRequest fieldOfStudyRequest) {
 		FieldOfStudy fieldOfStudy = fieldOfStudyService.getFieldOfStudy(fieldOfStudyID);
 		if (fieldOfStudy == null) {
-			throw new InvalidArgumentException("Nivo studija sa id-em " + fieldOfStudyID
+			throw new InvalidArgumentException("Oblast sa id-em " + fieldOfStudyID
 					+ " ne postoji u bazi!");
 		}
 		if(fieldOfStudyRequest.getName()!=null){
