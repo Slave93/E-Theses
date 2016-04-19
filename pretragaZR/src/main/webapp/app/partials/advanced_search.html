@@ -1,15 +1,15 @@
 <script>
     $(function () {
-        $("#slider-range-min").slider({
-            range: "min",
-            value: 37,
+        $("#slider-range-max").slider({
+            range: "max",
             min: 1,
-            max: 700,
+            max: 100,
+            value: 2,
             slide: function (event, ui) {
-                $("#amount").val("$" + ui.value);
+                $("#amount").val(ui.value);
             }
         });
-        $("#amount").val("$" + $("#slider-range-min").slider("value"));
+        $("#amount").val($("#slider-range-max").slider("value"));
     });
 </script>
 <div class="col-md-12">
@@ -23,7 +23,7 @@
     <!-- THESIS -->
     <div class="panel panel-default" ng-repeat="thesis in theses">
         <div class="panel-heading">
-            <h3 class="text-primary"> <a href="#rad/{{thesis.id}}">{{thesis.name}}</a></h3>
+            <h3 class="text-primary"> <a href="#rad/{{thesis.id}}">{{thesis.name}} - {{thesis.course.name}}</a></h3>
         </div>
         <div class="panel-body" style="padding:5px;">
             <table class="table table-hover" style="margin-bottom: 5px">
@@ -68,25 +68,32 @@
             <label>Ključne reči u opisu</label>
             <textarea class="form-control" rows = "10" ng-model="newThesisDescription"></textarea>
             <label>Procenat reči u opisu</label>
-            <input ng-model="descriptionMatchLimit"  type='text'/>
+            <!--input ng-model="descriptionMatchLimit"  type='text'/-->
+            <p>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;" ng-model="descriptionMatchLimit">
+            </p>
+            <div id="slider-range-max"></div>
         </div>
         <div class="form-group">
-            <label>Oblasti</label>
-            <div class="checkbox" ng-repeat="field in fields">
-                <label>
-                    <input type="checkbox" ng-model="field.checked" value="{{field.value}}" > <span class="text-primary">{{field.name}}</span>
-                </label>
+            <a  class="text-primary" data-toggle="collapse" data-target="#colapse1"> Oblasti <i class="fa fa-lg fa-sort-desc" aria-hidden="true"></i></a>
+            <div id="colapse1" class="collapse">
+                <div class="checkbox" ng-repeat="field in fields">
+                    <label>
+                        <input type="checkbox" ng-model="field.checked" value="{{field.value}}" > <span class="text-primary">{{field.name}}</span>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <label>Tagovi</label>
-            <div class="checkbox" ng-repeat="tag in tags">
-                <label>
-                    <input type="checkbox" ng-model="tag.checked" value="{{tag.value}}" > <span class="text-primary">#{{tag.value}}</span>
-                </label>
+            <a  class="text-primary" data-toggle="collapse" data-target="#colapse2"> Tagovi <i class="fa fa-lg fa-sort-desc" aria-hidden="true"></i></a>
+            <div id="colapse2" class="collapse">
+                <div class="checkbox" ng-repeat="tag in tags">
+                    <label>
+                        <input type="checkbox" ng-model="tag.checked" value="{{tag.value}}" > <span class="text-primary">#{{tag.value}}</span>
+                    </label>
+                </div>
             </div>
         </div>
-
         <button type="submit" class="btn btn-primary" data-dismiss = "modal" ng-click="performSearch()"><span class="fa fa-search"></span> Pretrazi</button>
     </form>
 

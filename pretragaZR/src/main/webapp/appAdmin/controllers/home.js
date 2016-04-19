@@ -25,6 +25,8 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
         $scope.newThesisMentorId = "";
         $scope.newThesisFullUserName = "";
         $scope.newThesisUserEmail = "";
+        $scope.newThesisFullMentorName = "";
+        $scope.newThesisMentorEmail = "";
         $scope.newThesisFieldsText = "";
         $scope.newThesisFields = [];
         $scope.infoThesisId = "";
@@ -43,9 +45,12 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
         $scope.infoThesisMentorLastName = "";
         $scope.infoThesisMentorId = "";
         $scope.infoThesisMentorName = "";
+
         $scope.dtOptions = DTOptionsBuilder.newOptions()
                 .withPaginationType('full_numbers')
                 .withDisplayLength(10);
+
+
         CourseService.getAllCourses(function (courses) {
             $scope.courses = courses;
         });
@@ -124,7 +129,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 tags = [];
             }
 
-            ThesisService.createThesis($scope.newThesisName, $scope.newThesisGrade, $scope.newThesisDefenseDate, $scope.newThesisDescription, $scope.newThesisCourseName, $scope.newThesisUserId, $scope.newThesisMentorId, tags, fields, $scope.newThesisFullUserName, $scope.newThesisUserEmail, function (response) {
+            ThesisService.createThesis($scope.newThesisName, $scope.newThesisGrade, $scope.newThesisDefenseDate, $scope.newThesisDescription, $scope.newThesisCourseName, $scope.newThesisUserId, $scope.newThesisMentorId, tags, fields, $scope.newThesisFullUserName, $scope.newThesisUserEmail, $scope.newThesisFullMentorName, $scope.newThesisMentorEmail, function (response) {
                 if ($scope.thesisFile !== undefined) {
                     $scope.updateThesisId = response.id;
                     uploadThesisFile(response.id);
@@ -181,7 +186,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 tags = [];
             }
 
-            ThesisService.updateThesis($scope.updateThesisId, $scope.newThesisName, $scope.newThesisGrade, $scope.newThesisDefenseDate, $scope.newThesisDescription, $scope.newThesisCourseName, $scope.newThesisUserId, $scope.newThesisMentorId, tags, fields, $scope.newThesisFullUserName, $scope.newThesisUserEmail, function (response) {
+            ThesisService.updateThesis($scope.updateThesisId, $scope.newThesisName, $scope.newThesisGrade, $scope.newThesisDefenseDate, $scope.newThesisDescription, $scope.newThesisCourseName, $scope.newThesisUserId, $scope.newThesisMentorId, tags, fields, $scope.newThesisFullUserName, $scope.newThesisUserEmail, $scope.newThesisFullMentorName, $scope.newThesisMentorEmail, function (response) {
                 if ($scope.thesisFile !== undefined) {
                     uploadThesisFile(response.id);
                     $scope.thesisFile = undefined;
@@ -261,6 +266,8 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
             $scope.newThesisMentorId = "";
             $scope.newThesisFullUserName = "";
             $scope.newThesisUserEmail = "";
+            $scope.newThesisFullMentorName = "";
+            $scope.newThesisMentorEmail = "";
             $scope.newThesisFields = [];
             $scope.newThesisFieldsText = "";
             $scope.infoThesisId = "";
@@ -288,8 +295,8 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
             $scope.updateThesisFile = thesis.file;
             $scope.newThesisFullUserName = thesis.userName;
             $scope.newThesisUserEmail = thesis.userEmail;
-            $scope.newThesisFullUserName = thesis.userName;
-            $scope.newThesisUserEmail = thesis.userEmail;
+            $scope.newThesisFullMentorName = thesis.mentorName;
+            $scope.newThesisMentorEmail = thesis.mentorEmail;
             if (thesis.file) {
                 $scope.updateThesisFileId = thesis.file.id;
             }
@@ -339,6 +346,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 $scope.infoThesisCourseName = "";
             $scope.infoThesisTags = thesis.tags;
             $scope.infoThesisFields = thesis.fieldsOfStudy;
+
             if (thesis.user) {
                 $scope.infoThesisUserEmail = thesis.user.email;
             } else {
@@ -351,6 +359,20 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 $scope.infoThesisUserName = thesis.user.firstName + " " + thesis.user.lastName;
             } else {
                 $scope.infoThesisUserName = thesis.userName;
+            }
+
+            if (thesis.mentor) {
+                $scope.infoThesisMentorEmail = thesis.mentor.email;
+            } else {
+                $scope.infoThesisMentorEmail = thesis.mentorEmail;
+            }
+            if (thesis.mentor && $scope.mentor.firstName && $scope.mentor.lastName) {
+                $scope.infoThesisMentorFirstName = thesis.mentor.firstName;
+                $scope.infoThesisMentorLastName = thesis.mentor.lastName;
+                $scope.infoThesisMentorId = thesis.mentor.id;
+                $scope.infoThesisMentorName = thesis.mentor.firstName + " " + thesis.mentor.lastName;
+            } else {
+                $scope.infoThesisMentorName = thesis.mentorName;
             }
 
             if (thesis.mentor) {

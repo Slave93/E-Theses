@@ -35,6 +35,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         $scope.searchStudyLevel = "";
         $scope.searchCourse = "";
         $scope.searchTags = [];
+
         $scope.searchKeyWord = "";
         $scope.searchFields = [];
         $scope.theses = [];
@@ -66,13 +67,24 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         if ($routeParams.courseName) {
             $scope.searchCourseName = $routeParams.courseName;
-            ThesisService.getThesesPage(null, null, null, [], null, null, $scope.searchCourseName, null, null, null, null, null, function (response) {
+            ThesisService.getThesesPage(null, null, null, [], null, $scope.searchCourseName, null, null, null, null, null, null, function (response) {
+                if (response.content.length === 0) {
+                    $scope.noResults = true;
+                }
+                $scope.theses = response.content;
+
+            });
+            $scope.searchCourseName = "";
+        }
+
+        if ($routeParams.field) {
+
+            ThesisService.getThesesPage(null, null, null, null, null, null, null, null, [$routeParams.field], null, null, null, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
                 }
                 $scope.theses = response.content;
             });
-            $scope.searchCourseName = "";
         }
 
         if ($routeParams.tag) {
@@ -104,7 +116,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                 }
             }
 
-            
+
 
             $scope.newThesisDescription = $scope.newThesisDescription.trim();
             $scope.newThesisDescription = $scope.newThesisDescription.split(' ');
@@ -121,7 +133,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                 $scope.keywords = [];
             }
 
-       
+
 
             $scope.descriptionMatchLimit = Math.ceil(($scope.descriptionMatchLimit / 100) * $scope.keywords.length);
 

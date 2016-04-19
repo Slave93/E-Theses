@@ -33,7 +33,8 @@
                                 </tr>
                                 <tr>
                                     <td>Mentor</td>
-                                    <td><a href="#user/{{thesis.mentor.id}}">{{thesis.mentor && thesis.mentor.firstName && thesis.mentor.lastName && thesis.mentor.firstName + " " + thesis.mentor.lastName|| ""}}</a></td>
+                                    <td ng-show="thesis.mentor" ><a href="#user/{{thesis.mentor.id}}">{{thesis.mentor && thesis.mentor.firstName && thesis.mentor.lastName && thesis.mentor.firstName + " " + thesis.mentor.lastName||thesis.mentor.firstName|| thesis.mentor.lastName||thesis.mentorName||thesis.mentor.email}}</a></td>
+                                    <td ng-hide="thesis.mentor">{{thesis.mentorName||thesis.mentorEmail}}</td>    
                                 </tr>
                                 <tr>
                                     <td>Ocena</td>
@@ -41,8 +42,8 @@
                                 </tr>
                                 <tr>
                                     <td>Oblasti</td>
-                                    <td><span  ng-repeat="field in thesis.fieldsOfStudy"><!--a href="#/advanced_search?tag={{tag.value}}"> #{{tag.value}} </a-->{{" " + field.name}}</span>
-
+                                    <td>
+                                        <span  ng-repeat="field in thesis.fieldsOfStudy"><a href="#/advanced_search?field={{field.name}}"> {{" " + field.name}}</a></span>
                                     </td>
                                 </tr>
                                 <tr>

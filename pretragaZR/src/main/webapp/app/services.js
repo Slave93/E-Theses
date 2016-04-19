@@ -243,7 +243,7 @@ app.factory('ThesisService', [
     function ($http, $rootScope) {
         var service = {};
         service.getThesesPage = function (pageNumber, pageSize, thesisName, tagValues, matchLimit, courseName, studiesName, sortField, fieldsOfStudy, matchLimit, descriptionKeys, decriptionMatchLimit, callback) {
-            console.log(arguments);
+
             var url = $rootScope.webApiPath + "theses/advanced_search?";
             if (tagValues) {
                 for (i = 0; i < tagValues.length; i++) {
@@ -306,7 +306,7 @@ app.factory('ThesisService', [
                         callback(response);
                     });
         };
-        service.createThesis = function (name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, callback) {
+        service.createThesis = function (name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, mentorName, mentorEmail, callback) {
             $http.post($rootScope.webApiPath + 'theses/', {
                 name: name,
                 grade: grade,
@@ -318,13 +318,15 @@ app.factory('ThesisService', [
                 tags: tags,
                 fieldsOfStudy: fields,
                 userName: userName,
-                userEmail: userEmail
+                userEmail: userEmail,
+                mentorName: mentorName,
+                mentorEmail: mentorEmail
             }).success(
                     function (response) {
                         callback(response);
                     });
         };
-        service.updateThesis = function (id, name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, callback) {
+        service.updateThesis = function (id, name, grade, defenseDate, description, courseName, userId, mentorId, tags, fields, userName, userEmail, mentorName, mentorEmail, callback) {
             $http.put($rootScope.webApiPath + 'theses/' + id, {
                 name: name,
                 grade: grade,
@@ -336,7 +338,9 @@ app.factory('ThesisService', [
                 tags: tags,
                 fieldsOfStudy: fields,
                 userName: userName,
-                userEmail: userEmail
+                userEmail: userEmail,
+                mentorName: mentorName,
+                mentorEmail: mentorEmail
             }).success(
                     function (response) {
                         callback(response);
