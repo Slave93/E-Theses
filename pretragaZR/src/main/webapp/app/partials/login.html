@@ -18,7 +18,7 @@
     });
 </script>
 <div class="container">
-    
+
     <div class="row">
         <div class="col-md-6 col-md-offset-3">            
             <div class="panel panel-login">
@@ -38,33 +38,51 @@
                         <div class="col-lg-12">
                             <form id="login-form" role="form" style="display: block;">
                                 <div class="form-group">
-                                    <input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="e-mail Adresa" value="" ng-model="email">
+                                    <md-input-container class="md-block" flex-gt-sm="">
+                                        <label>Email adresa</label>
+                                        <input type="email" ng-model="email" >
+                                    </md-input-container>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Lozinka" ng-model="password">
+                                    <md-input-container class="md-block" flex-gt-sm="" >
+                                        <label>Lozinka</label>
+                                        <input type="password" ng-model="password" >
+                                    </md-input-container>
+                                </div>
+                                <div class="form-group">
+
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary" value="Uloguj Se" ng-click="login()">
+                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-primary md-primary" value="Uloguj Se" ng-click="login()">
                                         </div>
                                     </div>
                                 </div>
                             </form>
+
+
                             <form id="register-form" role="form" style="display: none;">
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="e-mail Adresa" required ng-model="emailReg">
+                                    <md-input-container class="md-block" flex-gt-sm=""><label>Email adresa</label>
+                                        <input type="email" name="email" id="email" tabindex="1"  required ng-model="emailReg">
+                                    </md-input-container>
+
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Lozinka" required ng-model="passwordReg" >
+                                    <md-input-container class="md-block" flex-gt-sm=""><label>Lozinka</label>
+                                        <input type="password" name="password" id="password" tabindex="2"  required ng-model="passwordReg" >
+                                    </md-input-container>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" required placeholder="Potvrdi Lozinku" ng-model="passwordRegRep">
+                                    <md-input-container class="md-block" flex-gt-sm=""><label>Potvrdi Lozinku</label>
+                                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2"  required ng-model="passwordRegRep">
+                                    </md-input-container>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="Registruj Se" ng-click="register()">
+                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary md-primary" value="Registruj Se" ng-click="register()">
                                         </div>
                                     </div>
                                 </div>

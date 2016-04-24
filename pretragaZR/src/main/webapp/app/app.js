@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-var app = angular.module("aplikacija", ['ngRoute', 'ngCookies']);
+var app = angular.module("aplikacija", ['ngRoute', 'ngCookies', 'ngMaterial']);
 
-app.config(['$routeProvider', '$httpProvider',
-    function ($routeProvider, $httpProvider) {
+app.config(['$routeProvider', '$httpProvider', '$mdThemingProvider',
+    function ($routeProvider, $httpProvider, $mdThemingProvider) {
         $routeProvider.when('/main', {
             templateUrl: 'app/partials/main.html',
             controller: 'MainController'
@@ -37,6 +37,10 @@ app.config(['$routeProvider', '$httpProvider',
         });
 
         $httpProvider.interceptors.push('rejectionInterceptor');
+
+        $mdThemingProvider.theme('default')
+                .primaryPalette('blue', {'default': '800'})
+                .accentPalette('blue', {'default': '800'});
     }]);
 
 app.run(['$rootScope', '$location', '$http', '$cookieStore', 'UserService', 'StudiesService', 'ThesisService', 'Base64', function ($rootScope, $location, $http, $cookieStore, UserService, StudiesService, ThesisService, Base64) {

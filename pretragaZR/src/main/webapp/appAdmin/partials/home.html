@@ -70,28 +70,6 @@
             </div>
         </div>
 
-        <!--div class="col-lg-4 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">26</div>
-                            <div>Novi komentari</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">Prikazi</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div-->
     </div>
 
     <div class="row">
@@ -246,10 +224,10 @@
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">Prikaži postojeće
                                     <span class="caret"></span></button>
-                                <div class="dropdown-menu keep-open-on-click"> 
-                                    <div class="checkbox" ng-repeat="field in fields">
+                                <div class="dropdown-menu keep-open-on-click" > 
+                                    <div style="margin-left: 5px;" class="checkbox" ng-repeat="field in fields" >
                                         <label>
-                                            <input type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
+                                            <input  type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
                                         </label>
                                     </div>
                                 </div>
@@ -340,9 +318,9 @@
                                 <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">Prikaži postojeće
                                     <span class="caret"></span></button>
                                 <div class="dropdown-menu keep-open-on-click"> 
-                                    <div class="checkbox" ng-repeat="field in fields">
+                                    <div style="margin-left: 5px;" class="checkbox" ng-repeat="field in fields">
                                         <label>
-                                            <input type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
+                                            <input  type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
                                         </label>
                                     </div>
                                 </div>

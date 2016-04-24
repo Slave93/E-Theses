@@ -243,7 +243,7 @@ app.factory('ThesisService', [
     function ($http, $rootScope) {
         var service = {};
         service.getThesesPage = function (pageNumber, pageSize, thesisName, tagValues, matchLimit, courseName, studiesName, sortField, fieldsOfStudy, matchLimit, descriptionKeys, decriptionMatchLimit, callback) {
-
+            
             var url = $rootScope.webApiPath + "theses/advanced_search?";
             if (tagValues) {
                 for (i = 0; i < tagValues.length; i++) {

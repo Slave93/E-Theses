@@ -1,2 +1,2 @@
-app.controller('AboutController', ['$scope', 'SubjectService', function ($scope, SubjectService) {
-}]);
+app.controller('AboutController', ['$scope', function ($scope) {
+    }]);

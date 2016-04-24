@@ -5,6 +5,12 @@
  */
 
 
+html{
+
+   // background-image: url("backgroundTile.png");    
+   // background-repeat: repeat-y;
+}
+
 body{
     padding-top: 20px;
 }
@@ -24,4 +30,13 @@ footer {
 
 a{
     cursor:pointer !important;
+}
+
+input{
+    border:  none !important; 
+    border-bottom: 2px solid lightgray !important;
+}
+
+input:focus {
+    border-bottom: 2px solid #1565C0 !important;
 }

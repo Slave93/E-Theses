@@ -32,8 +32,8 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         $scope.searchPerformed = false;
 
-        $scope.searchStudyLevel = "";
-        $scope.searchCourse = "";
+        $scope.searchStudyLevel; //= "";
+        $scope.searchCourse; //= "";
         $scope.searchTags = [];
 
         $scope.searchKeyWord = "";
@@ -108,19 +108,17 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
             $scope.theses = [];
             $scope.pageNumber = 1;
 
-
             $scope.searchFields = [];
             for (i = 0; i < $scope.fields.length; i++) {
                 if ($scope.fields[i].checked) {
                     $scope.searchFields.push($scope.fields[i].name);
                 }
             }
-
-
-
+            var description = $scope.newThesisDescription;
             $scope.newThesisDescription = $scope.newThesisDescription.trim();
             $scope.newThesisDescription = $scope.newThesisDescription.split(' ');
             $scope.newThesisDescriptionTrimmed = [];
+
             for (i = 0; i < $scope.newThesisDescription.length; i++) {
                 $scope.newThesisDescription[i] = $scope.newThesisDescription[i].trim();
                 if ($scope.newThesisDescription[i] !== "") {
@@ -133,11 +131,10 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                 $scope.keywords = [];
             }
 
+            console.log($scope.descriptionMatchLimit);
+            $scope.limit = Math.ceil(($scope.descriptionMatchLimit / 100) * $scope.keywords.length);
 
-
-            $scope.descriptionMatchLimit = Math.ceil(($scope.descriptionMatchLimit / 100) * $scope.keywords.length);
-
-
+            console.log($scope.limit);
             if ($scope.tags) {
                 for (i = 0; i < $scope.tags.length; i++) {
                     if ($scope.tags[i].checked === true) {
@@ -145,15 +142,22 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                     }
                 }
             }
-            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchCourse, $scope.searchStudyLevel, null, $scope.searchFields, null, $scope.keywords, $scope.descriptionMatchLimit, function (response) {
+
+            ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchCourse, $scope.searchStudyLevel, null, $scope.searchFields, null, $scope.keywords, $scope.limit, function (response) {
                 if (response.content.length === 0) {
                     $scope.noResults = true;
+                } else {
+                    $scope.noResults = false;
                 }
+                console.log(response);
                 $scope.theses = response.content;
                 $scope.totalPages = response.totalPages;
                 $scope.searchPerformed = true;
                 $scope.pageNumber++;
+                $scope.newThesisDescription = description;
             });
+
+
 
         };
         $scope.loadMore = function () {
@@ -176,6 +180,8 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
 //END FUNCTION DEFINITION
 //
+
+
 
     }]);
 

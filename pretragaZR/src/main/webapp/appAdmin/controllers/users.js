@@ -28,8 +28,8 @@ app.controller('UsersController', ['$scope', '$rootScope', 'UserService', 'Authe
                 $scope.newUserCourseName = $scope.newUser.course.name;
             }
             UserService.updateUser($scope.newUser.id, $scope.newUser.firstName, $scope.newUser.lastName, $scope.newUser.studentsTranscript, $scope.newUserCourseName, $scope.newUser.biography, $scope.newUser.interests, function (response) {
-                UserService.grantAdmin($scope.newUserId, $scope.admin, function (response) {
-                    $scope.users.splice(findIndexById($scope.users, $scope.newUserId), 1);
+                UserService.grantAdmin($scope.newUser.id, $scope.newUser.admin, function (response) {
+                    $scope.users.splice(findIndexById($scope.users, $scope.newUser.id), 1);
                     $scope.users.push(response);
                 });
 
