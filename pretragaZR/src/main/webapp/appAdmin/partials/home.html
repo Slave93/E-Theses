@@ -87,6 +87,8 @@
                                         <th>Naziv rada</th>
                                         <th>Student</th>
                                         <th>Mentor</th>
+                                        <th>Smer</th>
+                                        <th>Nivo studija</th>
                                         <th>Datum odbrane</th>
                                         <th>Datum objave</th>
                                         <th>Ocena</th>
@@ -98,6 +100,9 @@
                                         <td>{{thesis.name}}</td>
                                         <td>{{thesis.user.firstName && thesis.user.lastName && thesis.user.firstName + " " + thesis.user.lastName|| thesis.userName||thesis.user.email||thesis.userEmail }}</td>
                                         <td>{{thesis.mentor.firstName && thesis.mentor.lastName && thesis.mentor.firstName + " " + thesis.mentor.lastName|| thesis.mentor.firstName|| thesis.mentor.lastName||thesis.mentorName|| thesis.mentor.email||thesis.mentorEmail}}</td>
+
+                                        <td>{{thesis.course && thesis.course.name|| ""}}</td>
+                                        <td>{{thesis.course && studiesDict[thesis.course.studiesIDs[0]]|| ""}}</td>
                                         <td>{{thesis.defenseDate| date: 'dd.MM.yyyy' }}</td>
                                         <td>{{thesis.datePosted| date: 'dd.MM.yyyy' }}</td>
                                         <td>{{thesis.grade}}</td>
@@ -220,12 +225,12 @@
                             <select class="form-control" ng-options="course.name as course.name for course in courses" ng-model="newThesisCourseName"></select>
                         </div>
                         <div class="form-group">
-                            <label>Oblasti</label>
+                            <label>Oblasti<span class="small"> (oblast1,oblast2,oblast3...)</span></label>
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">Prikaži postojeće
                                     <span class="caret"></span></button>
                                 <div class="dropdown-menu keep-open-on-click" > 
-                                    <div style="margin-left: 5px;" class="checkbox" ng-repeat="field in fields" >
+                                    <div style="margin-left: 5px; display: inline;" class="checkbox" ng-repeat="field in fields" >
                                         <label>
                                             <input  type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
                                         </label>
@@ -235,7 +240,7 @@
                             <textarea class="form-control" rows="3" ng-model="newThesisFieldsText"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Tagovi</label>
+                            <label>Tagovi<span class="small"> (tag1, tag2, tag3...)</span></label></label>
                             <textarea class="form-control" rows="5" ng-model="newThesisTags"></textarea>
                         </div>
                         <div class="form-group" ng-show="!updateThesisFile">
@@ -313,12 +318,12 @@
                             <select class="form-control" ng-options="course.name as course.name for course in courses" ng-model="newThesisCourseName"></select>
                         </div>
                         <div class="form-group">
-                            <label>Oblasti</label>
+                            <label>Oblasti <span class="small"> (oblast1,oblast2,oblast3...)</span></label>
                             <div class="dropdown">
                                 <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">Prikaži postojeće
                                     <span class="caret"></span></button>
                                 <div class="dropdown-menu keep-open-on-click"> 
-                                    <div style="margin-left: 5px;" class="checkbox" ng-repeat="field in fields">
+                                    <div style="margin-left: 5px; display: inline;" class="checkbox" ng-repeat="field in fields">
                                         <label>
                                             <input  type="checkbox" ng-checked = "field.checked" ng-model="field.checked" value="{{field.name}}">{{field.name}}
                                         </label>
@@ -326,11 +331,10 @@
                                 </div>
                             </div>
                             <textarea class="form-control" rows="3" ng-model="newThesisFieldsText"></textarea>
-
                         </div>
 
                         <div class="form-group">
-                            <label>Tagovi</label>
+                            <label>Tagovi<span class="small"> (tag1, tag2, tag3...)</span></label>
                             <textarea class="form-control" rows="5" ng-model="newThesisTags"></textarea>
                         </div>
                         <div class="form-group">

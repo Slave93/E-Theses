@@ -64,13 +64,14 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
         //COURSE OPERATIONS
 
         $scope.createCourse = function () {
-            for (i = 0; i < $scope.studies.length; i++) {
-                var item = $scope.studies[i];
-                if (item.checked) {
-                    $scope.newCourseStudies.push($scope.studies[i].id);
-                    item.checked = false;
-                }
-            }
+            /*  for (i = 0; i < $scope.studies.length; i++) {
+             var item = $scope.studies[i];
+             if (item.checked) {
+             $scope.newCourseStudies.push($scope.studies[i].id);
+             item.checked = false;
+             }
+             } */
+            $scope.newCourseStudies.push($scope.newCourseStudy);
             CourseService.createCourse($scope.newCourseName, $scope.newCourseNameShort, $scope.newCourseStudies, function (response) {
                 $scope.courses.push(response);
                 $scope.newCourseName = "";
@@ -81,13 +82,14 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
         };
 
         $scope.updateCourse = function () {
-            for (i = 0; i < $scope.studies.length; i++) {
-                var item = $scope.studies[i];
-                if (item.checked) {
-                    $scope.newCourseStudies.push($scope.studies[i].id);
-                    item.checked = false;
-                }
-            }
+            /*for (i = 0; i < $scope.studies.length; i++) {
+             var item = $scope.studies[i];
+             if (item.checked) {
+             $scope.newCourseStudies.push($scope.studies[i].id);
+             item.checked = false;
+             }
+             }*/
+            $scope.newCourseStudies.push($scope.newCourseStudy);
             CourseService.updateCourse($scope.updateCourseName, $scope.updateCourseShortName, $scope.updateCourseId, $scope.newCourseStudies, function (response) {
                 $scope.courses.splice(findIndexById($scope.courses, $scope.updateCourseId), 1);
                 $scope.courses.push(response);
@@ -134,7 +136,7 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
         $scope.deleteTag = function (tag) {
             if (confirm("Da li zelite da obrisete tag #" + tag.value + " ?")) {
                 TagService.deleteTag(tag.id, function (response) {
-                    $scope.tags.splice(findIndexById($scope.courses, tag.id), 1);
+                    $scope.tags.splice(findIndexById($scope.tags, tag.id), 1);
                 });
             }
         };
@@ -152,13 +154,14 @@ app.controller('SettingsController', ['$scope', '$rootScope', 'CourseService', '
 
 
         $scope.editCourseModalInit = function (course) {
-            for (i = 0; i < $scope.studies.length; i++) {
-                for (j = 0; j < course.studies.length; j++) {
-                    if ($scope.studies[i].id === course.studies[j].id) {
-                        $scope.studies[i].checked = true;
-                    }
-                }
-            }
+            /*for (i = 0; i < $scope.studies.length; i++) {
+             for (j = 0; j < course.studies.length; j++) {
+             if ($scope.studies[i].id === course.studies[j].id) {
+             $scope.studies[i].checked = true;
+             }
+             }
+             }*/
+            $scope.newCourseStudy = course.studies[0].id;
             $scope.updateCourseId = course.id;
             $scope.updateCourseName = course.name;
             $scope.updateCourseShortName = course.nameShort;

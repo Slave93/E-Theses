@@ -243,14 +243,16 @@
                             <label>Skraćeni naziv</label>
                             <input class="form-control" ng-model="updateCourseShortName">
                         </div>
+
                         <div class="form-group">
                             <label>Nivoi studija</label>
-                            <div class="checkbox" ng-repeat="study in studies">
-                                <label>
-                                    <input type="checkbox" ng-checked = "study.checked" ng-model="study.checked" value="{{study.id}}">{{study.name}}
-                                </label>
-                            </div>
+                            <select class="form-control" ng-options="study.id as study.name for study in studies" ng-model="newCourseStudy"></select>
                         </div>
+                        <!--div class="checkbox" ng-repeat="study in studies">
+                            <label>
+                                <input type="checkbox" ng-checked = "study.checked" ng-model="study.checked" value="{{study.id}}">{{study.name}}
+                            </label>
+                        </div-->
                         <button type="submit" class="btn btn-info" data-dismiss="modal" ng-click="updateCourse()">Izmeni</button>
                     </form>
                 </div>
@@ -280,11 +282,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nivoi studija</label>
-                            <div class="checkbox" ng-repeat="study in studies">
-                                <label>
-                                    <input type="checkbox" ng-checked = "study.checked" ng-model="study.checked" value="{{study.id}}">{{study.name}}
-                                </label>
-                            </div>
+                            <select class="form-control" ng-options="study.id as study.name for study in studies" ng-model="newCourseStudy"></select>
                         </div>
                         <button type="submit" class="btn btn-success" data-dismiss="modal" ng-click="createCourse()">Dodaj</button>
                     </form>
@@ -294,7 +292,7 @@
 
         </div>
     </div>
-    
+
 
     <!--SUBJECTS -->
 

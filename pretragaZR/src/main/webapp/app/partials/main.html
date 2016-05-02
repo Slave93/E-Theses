@@ -21,7 +21,7 @@
     <!-- THESIS -->
     <div class="panel panel-default" ng-repeat="thesis in theses">
         <div class="panel-heading">
-            <a href="#rad/{{thesis.id}}">{{thesis.name}} {{thesis.course.name && " - " + thesis.course.name}}</a>
+            <a href="#rad/{{thesis.id}}">{{thesis.name}} {{thesis.course.name && " - " + thesis.course.name}} {{thesis.course.studiesIDs[0] && ' - ' + studiesDict[thesis.course.studiesIDs[0]]}}</a>
         </div>
         <div class="panel-body" style="padding:5px;">
             <table class="table table-hover" style="margin-bottom: 5px">

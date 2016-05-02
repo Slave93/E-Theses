@@ -11,7 +11,7 @@
  */
 
 
-app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'CourseService', 'ThesisService', 'FieldOfStudyService', 'ThesisUploadService', 'DTOptionsBuilder', function ($scope, $rootScope, UserService, CourseService, ThesisService, FieldOfStudyService, ThesisUploadService, DTOptionsBuilder) {
+app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'CourseService', 'ThesisService', 'FieldOfStudyService', 'ThesisUploadService', 'StudiesService', 'DTOptionsBuilder', function ($scope, $rootScope, UserService, CourseService, ThesisService, FieldOfStudyService, ThesisUploadService, StudiesService, DTOptionsBuilder) {
 
 //INIT
 
@@ -51,6 +51,16 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 .withDisplayLength(10);
 
 
+
+        StudiesService.getAllStudies(function (response) {
+
+            $scope.studies = response;
+            $scope.studiesDict = new Array();
+            for (i = 0; i < $scope.studies.length; i++) {
+                var item = $scope.studies[i];
+                $scope.studiesDict[item.id] = item.name;
+            }
+        });
         CourseService.getAllCourses(function (courses) {
             $scope.courses = courses;
         });
@@ -59,7 +69,6 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
         });
         ThesisService.getAllTheses(function (response) {
             $scope.theses = response;
-            console.log(response);
         });
         ThesisUploadService.getAllFiles(function (response) {
             $scope.files = response;
@@ -93,7 +102,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
 
             $scope.newThesisFieldsText = $scope.newThesisFieldsText.trim();
 
-            $scope.newThesisFieldsText = $scope.newThesisFieldsText.split(' ');
+            $scope.newThesisFieldsText = $scope.newThesisFieldsText.split(',');
 
             for (i = 0; i < $scope.newThesisFieldsText.length; i++) {
                 $scope.newThesisFieldsText[i] = $scope.newThesisFieldsText[i].trim();
@@ -114,7 +123,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 $scope.newThesisDefenseDate = new Date(parseInt(date[2]), parseInt(date[1]), parseInt(date[0]));
             }
             $scope.newThesisTags = $scope.newThesisTags.trim();
-            $scope.newThesisTags = $scope.newThesisTags.split(' ');
+            $scope.newThesisTags = $scope.newThesisTags.split(',');
             $scope.newThesisTagsTrimmed = [];
             for (i = 0; i < $scope.newThesisTags.length; i++) {
                 $scope.newThesisTags[i] = $scope.newThesisTags[i].trim();
@@ -151,7 +160,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
 
             $scope.newThesisFieldsText = $scope.newThesisFieldsText.trim();
 
-            $scope.newThesisFieldsText = $scope.newThesisFieldsText.split(' ');
+            $scope.newThesisFieldsText = $scope.newThesisFieldsText.split(',');
 
             for (i = 0; i < $scope.newThesisFieldsText.length; i++) {
                 $scope.newThesisFieldsText[i] = $scope.newThesisFieldsText[i].trim();
@@ -171,7 +180,7 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
                 $scope.newThesisDefenseDate = new Date(parseInt(date[2]), parseInt(date[1]), parseInt(date[0]));
             }
             $scope.newThesisTags = $scope.newThesisTags.trim();
-            $scope.newThesisTags = $scope.newThesisTags.split(' ');
+            $scope.newThesisTags = $scope.newThesisTags.split(',');
             $scope.newThesisTagsTrimmed = [];
             for (i = 0; i < $scope.newThesisTags.length; i++) {
                 $scope.newThesisTags[i] = $scope.newThesisTags[i].trim();
@@ -311,7 +320,12 @@ app.controller('HomeController', ['$scope', '$rootScope', 'UserService', 'Course
             }
 
             for (i = 0; i < thesis.tags.length; i++) {
-                $scope.newThesisTags += " " + thesis.tags[i].value;
+                if (i === thesis.tags.length - 1) {
+                    $scope.newThesisTags += thesis.tags[i].value;
+                }
+                else {
+                    $scope.newThesisTags += thesis.tags[i].value + ",";
+                }
             }
 
             for (i = 0; i < $scope.fields.length; i++) {

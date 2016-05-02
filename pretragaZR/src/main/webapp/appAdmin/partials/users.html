@@ -147,8 +147,6 @@
                     <h4 class="modal-title">{{infoUser.firstName && infoUser.lastName && infoUser.firstName + " " + infoUser.lastName||infoUser.email}}</h4>
                 </div>
 
-                <!--div class="col-lg-3 " align="center">
-                    <img src="http://www.niksebastian.com/wp-content/uploads/2014/05/sample-2-sm.jpg" class="img-sq img-responsive"> </div-->
                 <div class="col-lg-12 "> 
                     <table class="table table-user-information">
                         <tbody>
@@ -157,8 +155,8 @@
                                 <td>{{infoUser.course.name}}</td>
                             </tr>
                             <tr ng-repeat="thesis in infoUser.theses">
-                                <td>Završni rad</td>
-                                <td>{{thesis.name}}</td>
+                                <td>Završni rad {{' - ' + studiesDict[coursesDict[thesis.courseId].studies[0].id]}}</td>
+                                <td>{{thesis.name}}</a></td>
                             </tr>
                             <tr>
                             <tr>

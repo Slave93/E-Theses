@@ -3,7 +3,14 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         //init the lists
         StudiesService.getAllStudies(function (response) {
+
             $scope.studies = response;
+
+            $scope.studiesDict = new Array();
+            for (i = 0; i < $scope.studies.length; i++) {
+                var item = $scope.studies[i];
+                $scope.studiesDict[item.id] = item.name;
+            }
         });
         CourseService.getAllCourses(function (response) {
             $scope.courses = response;
@@ -17,9 +24,9 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         TagService.getAllTags(function (response) {
             $scope.tags = response;
-            for (i = 0; i < $scope.tags.length; i++) {
-                $scope.tags[i].checked = false;
-            }
+            /*for (i = 0; i < $scope.tags.length; i++) {
+             $scope.tags[i].checked = false;
+             }*/
         });
 
 
@@ -40,7 +47,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         $scope.searchFields = [];
         $scope.theses = [];
         $scope.newThesisDescription = "";
-        $scope.descriptionMatchLimit = 1;
+        $scope.descriptionMatchLimit = 100;
 
         if ($scope.tags) {
             for (i = 0; i < $scope.tags.length; i++) {
@@ -104,16 +111,17 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
 
         $scope.performSearch = function () {
 
-            $scope.searchTags = [];
+//          $scope.searchTags = [];
             $scope.theses = [];
             $scope.pageNumber = 1;
 
-            $scope.searchFields = [];
-            for (i = 0; i < $scope.fields.length; i++) {
-                if ($scope.fields[i].checked) {
-                    $scope.searchFields.push($scope.fields[i].name);
-                }
-            }
+
+            /*$scope.searchFields = [];
+             for (i = 0; i < $scope.fields.length; i++) {
+             if ($scope.fields[i].checked) {
+             $scope.searchFields.push($scope.fields[i].name);
+             }
+             }*/
             var description = $scope.newThesisDescription;
             $scope.newThesisDescription = $scope.newThesisDescription.trim();
             $scope.newThesisDescription = $scope.newThesisDescription.split(' ');
@@ -131,17 +139,16 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                 $scope.keywords = [];
             }
 
-            console.log($scope.descriptionMatchLimit);
             $scope.limit = Math.ceil(($scope.descriptionMatchLimit / 100) * $scope.keywords.length);
 
-            console.log($scope.limit);
-            if ($scope.tags) {
-                for (i = 0; i < $scope.tags.length; i++) {
-                    if ($scope.tags[i].checked === true) {
-                        $scope.searchTags.push($scope.tags[i].value);
-                    }
-                }
-            }
+            /*
+             if ($scope.tags) {
+             for (i = 0; i < $scope.tags.length; i++) {
+             if ($scope.tags[i].checked === true) {
+             $scope.searchTags.push($scope.tags[i].value);
+             }
+             }
+             }*/
 
             ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, $scope.searchKeyWord, $scope.searchTags, null, $scope.searchCourse, $scope.searchStudyLevel, null, $scope.searchFields, null, $scope.keywords, $scope.limit, function (response) {
                 if (response.content.length === 0) {
@@ -149,7 +156,6 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
                 } else {
                     $scope.noResults = false;
                 }
-                console.log(response);
                 $scope.theses = response.content;
                 $scope.totalPages = response.totalPages;
                 $scope.searchPerformed = true;

@@ -16,8 +16,8 @@
                                     <td>{{user.course.name|| ""}}</td>
                                 </tr>
                                 <tr ng-repeat="thesis in user.theses">
-                                    <td>Završni rad </td>
-                                    <td><a href="#rad/{{thesis.id}}">{{thesis.name|| ""}}</a></td>
+                                    <td>Završni rad {{' - ' + studiesDict[coursesDict[thesis.courseId].studies[0].id]}}</td>
+                                    <td><a href="#rad/{{thesis.id}}">{{thesis.name}}</a></td>
                                 </tr>
                                 <tr>
                                 <tr>

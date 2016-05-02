@@ -1,11 +1,20 @@
 
-app.controller('MainController', ['$scope', '$rootScope', 'ThesisService', function ($scope, $rootScope, ThesisService) {
+app.controller('MainController', ['$scope', '$rootScope', 'ThesisService','StudiesService', function ($scope, $rootScope, ThesisService,StudiesService) {
 
         $scope.initialNumberOfItemsPerLoad = 5;
         $scope.numberOfItemsPerLoad = 5;
 
         $scope.theses = [];
         $scope.pageNumber = 1;
+        
+        StudiesService.getAllStudies(function (response) {
+            $scope.studies = response;
+            $scope.studiesDict = new Array();
+            for (i = 0; i < $scope.studies.length; i++) {
+                var item = $scope.studies[i];
+                $scope.studiesDict[item.id] = item.name;
+            }
+        });
 
         ThesisService.getThesesPage($scope.pageNumber, $scope.numberOfItemsPerLoad, null, null, null, null, null, null, null, null, null, null, function (response) {
             if (response.content.length === 0) {

@@ -1,10 +1,22 @@
 
-app.controller('RadController', ['$scope', '$rootScope', '$routeParams', 'ThesisService', 'CommentService', function ($scope, $rootScope, $routeParams, ThesisService, CommentService) {
+app.controller('RadController', ['$scope', '$rootScope', '$routeParams', 'ThesisService', 'CommentService', 'StudiesService', function ($scope, $rootScope, $routeParams, ThesisService, CommentService, StudiesService) {
 
 
 //INIT
         $scope.thesisId = $routeParams.thesisId;
         $scope.message = "";
+
+        StudiesService.getAllStudies(function (response) {
+            $scope.studies = response;
+            $scope.studiesDict = new Array();
+            for (i = 0; i < $scope.studies.length; i++) {
+                var item = $scope.studies[i];
+                $scope.studiesDict[item.id] = item.name;
+            }
+        });
+
+
+
         ThesisService.getThesisById($scope.thesisId, function (response) {
             $scope.thesis = response;
         });

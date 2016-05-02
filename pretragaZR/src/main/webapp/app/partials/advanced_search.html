@@ -17,8 +17,6 @@
 <div class="col-md-12">
     <h1 class="page-header">
         Napredna pretraga 
-
-
     </h1>
 </div>
 <div class="col-md-8 ">
@@ -26,13 +24,13 @@
     <!-- THESIS -->
     <div class="panel panel-default" ng-repeat="thesis in theses">
         <div class="panel-heading">
-            <a href="#rad/{{thesis.id}}">{{thesis.name}}  {{thesis.course.name && " - " + thesis.course.name}}</a>
+            <a href="#rad/{{thesis.id}}">{{thesis.name}}  {{thesis.course.name && " - " + thesis.course.name}} {{thesis.course.studiesIDs[0] && ' - ' + studiesDict[thesis.course.studiesIDs[0]]}}</a>
         </div>
         <div class="panel-body" style="padding:5px;">
             <table class="table table-hover" style="margin-bottom: 5px">
                 <tr>
                     <td><span class="fa fa-user"></span> Student</td>
-                    <td>{{thesis.user.firstName && thesis.user.lastName && thesis.user.firstName + " " + thesis.user.lastName|| thesis.user.email|| thesis.userName || thesis.userEmail}}</td>
+                    <td>{{thesis.user.firstName && thesis.user.lastName && thesis.user.firstName + " " + thesis.user.lastName|| thesis.user.email || thesis.userName || thesis.userEmail}}</td>
                 </tr>
                 <tr>
                     <td><span class="glyphicon glyphicon-time"></span> Datum: </td>
@@ -57,7 +55,7 @@
         </md-input-container>
 
         <md-input-container class="md-block" flex-gt-sm="">
-            <label>Naziv smera</label>
+            <label>Smera</label>
             <md-select ng-model="searchCourse">
                 <md-option value=""></md-option>
                 <md-option ng-repeat="course in courses" value="{{course.name}}">
@@ -77,6 +75,23 @@
 
             </md-select>
         </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm="" style="margin-top: 30px;">
+            <label>Oblasti</label>
+            <md-select ng-model="searchFields" multiple>
+                <md-optgroup label="Oblasti">
+                    <md-option ng-value="field.name" ng-repeat="field in fields">{{field.name}}</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
+        
+        <md-input-container class="md-block" flex-gt-sm="" style="margin-top: 30px;">
+            <label>Tagovi</label>
+            <md-select ng-model="searchTags" multiple>
+                <md-optgroup label="Tagovi">
+                    <md-option ng-value="tag.value" ng-repeat="tag in tags">{{tag.value}}</md-option>
+                </md-optgroup>
+            </md-select>
+        </md-input-container>
 
         <div class="form-group">
             <md-input-container class="md-block" flex-gt-sm="" style="margin-top: 30px;">
@@ -90,31 +105,16 @@
                 <md-slider ng-model="descriptionMatchLimit" md-discrete min="0" step="10" max="100" id="blue-slider" class="text-primary">
                 </md-slider>
                 <md-input-container>
-                    <input flex type="number" ng-model="descriptionMatchLimit" aria-label="blue" aria-controls="blue-slider">
+                    <input flex readonly ng-model="descriptionMatchLimit" aria-label="blue" aria-controls="blue-slider">
                 </md-input-container>
             </md-slider-container>
         </div>
-        <div class="form-group">
-            <a  class="text-primary" data-toggle="collapse" data-target="#colapse1"> Oblasti <i class="fa fa-lg fa-sort-desc" aria-hidden="true"></i></a>
-            <div id="colapse1" class="collapse">
-                <div class="checkbox" ng-repeat="field in fields">
-                    <label>
-                        <input type="checkbox" ng-model="field.checked" value="{{field.value}}" > <span class="text-primary">{{field.name}}</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <a class="text-primary text-primary" data-toggle="collapse" data-target="#colapse2"> Tagovi <i class="fa fa-lg fa-sort-desc" aria-hidden="true"></i></a>
-            <div id="colapse2" class="collapse">
-                <div class="checkbox" ng-repeat="tag in tags">
-                    <label>
-                        <input type="checkbox" ng-model="tag.checked" value="{{tag.value}}" > <span class="text-primary">#{{tag.value}}</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary" data-dismiss = "modal" ng-click="performSearch()"><span class="fa fa-search"></span> Pretrazi</button>
+
+
+
+        <button type="submit" class="btn btn-primary" ng-click="performSearch()"><span class="fa fa-search"></span> Pretrazi</button>
+
+
     </form>
 
 </div> 
