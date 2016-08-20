@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="1.0.0" author="slavko.komarica">
+		<!-- createTable tableName="subject"> <column name="subject_id" type="bigint" 
+			autoIncrement="true"> <constraints primaryKey="true" /> </column> <column 
+			name="name" type="varchar(100)"> <constraints nullable="false" unique="true" 
+			/> </column> </createTable -->
+
+
+		<createTable tableName="course">
+			<column name="course_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="name_short" type="varchar(10)">
+				<constraints nullable="false" unique="true" />
+			</column>
+		</createTable>
+
+		<createTable tableName="studies">
+			<column name="studies_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="name_short" type="varchar(10)">
+				<constraints nullable="false" unique="true" />
+			</column>
+		</createTable>
+
+
+		<!--createTable tableName="subject_course"> <column name="subject_id" type="bigint"> 
+			<constraints nullable="false" /> </column> <column name="course_id" type="bigint"> 
+			<constraints nullable="false" /> </column> </createTable> <addForeignKeyConstraint 
+			baseColumnNames="subject_id" baseTableName="subject_course" constraintName="fk_subject_course_subject" 
+			onDelete="CASCADE" referencedColumnNames="subject_id" referencedTableName="subject" 
+			/> <addForeignKeyConstraint baseColumnNames="course_id" baseTableName="subject_course" 
+			constraintName="fk_subject_course_course" onDelete="CASCADE" referencedColumnNames="course_id" 
+			referencedTableName="course" / -->
+
+		<createTable tableName="course_studies">
+			<column name="course_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="studies_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="course_id"
+			baseTableName="course_studies" constraintName="fk_course_studies_course"
+			onDelete="CASCADE" referencedColumnNames="course_id"
+			referencedTableName="course" />
+		<addForeignKeyConstraint baseColumnNames="studies_id"
+			baseTableName="course_studies" constraintName="fk_course_studies_studies"
+			onDelete="CASCADE" referencedColumnNames="studies_id"
+			referencedTableName="studies" />
+
+
+		<createTable tableName="user">
+			<column name="user_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="first_name" type="varchar(30)" />
+			<column name="last_name" type="varchar(30)" />
+			<column name="email" type="varchar(40)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="password" type="varchar(75)">
+				<constraints nullable="false" />
+			</column>
+			<column name="students_transcript" type="varchar(9)" />
+			<column name="is_admin" type="tinyint(1)">
+				<constraints nullable="false" />
+			</column>
+			<column name="course_id" type="bigint" />
+			<column name="biography" type="varchar(5000)" />
+			<column name="interests" type="varchar(3000)" />
+			<column name="last_activity" type="datetime"></column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="course_id"
+			baseTableName="user" constraintName="fk_user_course" onDelete="SET NULL"
+			referencedColumnNames="course_id" referencedTableName="course" />
+
+		<createTable tableName="file">
+			<column name="file_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="file_name" type="varchar(100)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="thesis_name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="download_count" type="mediumint unsigned" />
+		</createTable>
+
+		<createTable tableName="thesis">
+			<column name="thesis_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" unique="true" />
+			</column>
+			<column name="grade" type="smallint" />
+			<column name="date_posted" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="defense_date" type="datetime" />
+			<column name="description" type="varchar(1000)" />
+			<column name="course_id" type="bigint" />
+			<column name="file_id" type="bigint" />
+			<column name="user_id" type="bigint">
+				<constraints unique="false" />
+			</column>
+			<column name="user_email" type="varchar(40)" />
+			<column name="user_name" type="varchar(65)" />
+			<column name="user_mentor_id" type="bigint" />
+			<column name="mentor_email" type="varchar(40)" />
+			<column name="mentor_name" type="varchar(65)" />
+			<column name="view_count" type="mediumint unsigned" />
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="course_id"
+			baseTableName="thesis" constraintName="fk_thesis_course" onDelete="SET NULL"
+			referencedColumnNames="course_id" referencedTableName="course" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="thesis" constraintName="fk_thesis_user" onDelete="SET NULL"
+			referencedColumnNames="user_id" referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="user_mentor_id"
+			baseTableName="thesis" constraintName="fk_thesis_mentor_user"
+			onDelete="SET NULL" referencedColumnNames="user_id"
+			referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="file_id"
+			baseTableName="thesis" constraintName="fk_thesis_file" onDelete="SET NULL"
+			referencedColumnNames="file_id" referencedTableName="file" />
+
+		<createTable tableName="keyword">
+			<column name="keyword_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="value" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="is_banned" type="tinyint(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createIndex indexName="keyword_value" tableName="keyword">
+			<column name="value" />
+		</createIndex>
+
+		<createTable tableName="thesis_keyword">
+			<column name="thesis_keyword_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="keyword_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="count" type="int">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="keyword_id"
+			baseTableName="thesis_keyword" constraintName="fk_thesis_keywords_keyword"
+			onDelete="CASCADE" referencedColumnNames="keyword_id"
+			referencedTableName="keyword" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_keyword" constraintName="fk_thesis_keywords_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
+
+		<createTable tableName="tag">
+			<column name="tag_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="value" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createIndex indexName="tag_value" tableName="tag">
+			<column name="value" />
+		</createIndex>
+
+		<createTable tableName="thesis_tag">
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="tag_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="tag_id"
+			baseTableName="thesis_tag" constraintName="fk_thesis_tags_tag"
+			onDelete="CASCADE" referencedColumnNames="tag_id"
+			referencedTableName="tag" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_tag" constraintName="fk_thesis_tags_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
+		<createTable tableName="field_of_study">
+			<column name="field_of_study_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createIndex indexName="field_of_study_name" tableName="field_of_study">
+			<column name="name" />
+		</createIndex>
+
+		<createTable tableName="thesis_field_of_study">
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="field_of_study_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="field_of_study_id"
+			baseTableName="thesis_field_of_study" constraintName="fk_thesis_field_field"
+			onDelete="CASCADE" referencedColumnNames="field_of_study_id"
+			referencedTableName="field_of_study" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_field_of_study" constraintName="fk_thesis_field_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
+
+		<createTable tableName="thesis_comment">
+			<column name="thesis_comment_id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="comment_message" type="varchar(3000)">
+				<constraints nullable="false" />
+			</column>
+			<column name="date_posted" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="thesis_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="thesis_comment" constraintName="fk_thesis_comment_user"
+			onDelete="CASCADE" referencedColumnNames="user_id"
+			referencedTableName="user" />
+		<addForeignKeyConstraint baseColumnNames="thesis_id"
+			baseTableName="thesis_comment" constraintName="fk_thesis_comment_thesis"
+			onDelete="CASCADE" referencedColumnNames="thesis_id"
+			referencedTableName="thesis" />
+
+	</changeSet>
+
+</databaseChangeLog>

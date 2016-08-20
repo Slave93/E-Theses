@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<!-- Stateless RESTful services use BASIC authentication -->
+	<security:http use-expressions="true" auto-config="false" create-session="stateless" entry-point-ref="unauthorisedEntryPoint" authentication-manager-ref="authenticationManager">
+		<security:intercept-url method="OPTIONS" pattern="/webapi/**" access="permitAll" />
+		<security:intercept-url pattern="/webapi/authentication/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/courses/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/subjects/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/studies/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/theses/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/tags/**" access="permitAll" />
+		<security:intercept-url method="GET" pattern="/webapi/fields-of-study/**" access="permitAll" />
+		<security:intercept-url method="POST" pattern="/webapi/theses/{thesisID}/comments" access="hasRole('ROLE_USER')" />
+		<security:intercept-url method="DELETE" pattern="/webapi/theses/comments/**" access="hasRole('ROLE_USER')" />
+		<security:intercept-url method="GET" pattern="/webapi/users/**" access="permitAll" />
+		<security:intercept-url method="POST" pattern="/webapi/users" access="permitAll" />
+		<security:intercept-url method="PUT" pattern="/webapi/users/{userID}" access="hasRole('ROLE_USER')" />
+		<security:intercept-url pattern="/webapi/**" access="hasRole('ROLE_ADMIN')" />		
+		<security:custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER" />
+		<security:csrf disabled="true"/>
+	</security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="encoder"></security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<beans:bean id="ticketProccessingFilter" class="rs.fon.elab.pzr.security.filter.TicketProccessingFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+		<beans:property name="customUserDetailsService" ref="customUserDetailsService"></beans:property>
+		<beans:property name="authenticationService" ref="authenticationService"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>	
+	<beans:bean id="unauthorisedEntryPoint" class="rs.fon.elab.pzr.security.UnauthorisedEntryPoint"></beans:bean>
+
+</beans:beans>
+
+
+

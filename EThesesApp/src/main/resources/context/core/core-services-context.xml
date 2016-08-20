@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- authentication related service -->
+	<beans:bean id="authenticationService" class="rs.fon.elab.pzr.core.service.authentication.AuthenticationServiceImpl">
+		<beans:property name="ticketService" ref="ticketService"></beans:property>
+		<beans:property name="userRepository" ref="userRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="ticketService" class="rs.fon.elab.pzr.core.service.authentication.TicketService">
+		<beans:property name="ticketCash" ref="ticketCash"></beans:property>
+	</beans:bean>
+	<beans:bean id="customUserDetailsService" class="rs.fon.elab.pzr.core.service.authentication.CustomUserDetailService">
+		<beans:property name="userRepository" ref="userRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="ticketCash" class="rs.fon.elab.pzr.core.model.ticket.InMemoryTicketCash" scope="singleton">
+	</beans:bean>
+	
+	<!-- rest services -->	
+	<beans:bean id="courseService" class="rs.fon.elab.pzr.core.service.CourseServiceImpl">
+		<beans:property name="courseRepository" ref="courseRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="studiesService" class="rs.fon.elab.pzr.core.service.StudiesServiceImpl">
+		<beans:property name="studiesRepository" ref="studiesRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="keywordService" class="rs.fon.elab.pzr.core.service.KeywordServiceImpl">
+		<beans:property name="keywordRepository" ref="keywordRepository"></beans:property>
+		<beans:property name="thesisService" ref="thesisService"></beans:property>
+	</beans:bean>
+	<beans:bean id="userService" class="rs.fon.elab.pzr.core.service.UserServiceImpl">
+		<beans:property name="thesisRepository" ref="thesisRepository"></beans:property>
+		<beans:property name="userRepository" ref="userRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="thesisService" class="rs.fon.elab.pzr.core.service.ThesisServiceImpl">
+		<beans:property name="thesisRepository" ref="thesisRepository"></beans:property>
+		<beans:property name="commentRepository" ref="commentRepository"></beans:property>
+		<beans:property name="fileRepository" ref="fileRepository"></beans:property>
+		<beans:property name="userRepository" ref="userRepository"></beans:property>
+		<beans:property name="userService" ref="userService"></beans:property>
+		<beans:property name="thesisFilesFolder" value="${location.thesis.files}"></beans:property>			
+	</beans:bean>
+	
+	<beans:bean id="tagService" class="rs.fon.elab.pzr.core.service.TagServiceImpl">
+		<beans:property name="tagRepository" ref="tagRepository"></beans:property>
+	</beans:bean>
+	<beans:bean id="fieldOfStudyService" class="rs.fon.elab.pzr.core.service.FieldOfStudyServiceImpl">
+		<beans:property name="fieldOfStudyRepository" ref="fieldOfStudyRepository"></beans:property>
+	</beans:bean>
+	
+	
+</beans:beans>
+
+

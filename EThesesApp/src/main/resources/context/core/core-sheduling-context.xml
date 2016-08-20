@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="ticketClean"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="ticketService" />
+		<property name="targetMethod" value="invalidateOldTickets" />
+	</bean>
+	
+	<bean id="cronTriggerTicketClean"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="ticketClean" />
+		<property name="cronExpression" value="${ticket.clean.interval}" />
+	</bean>
+	
+	<bean id="keywordClean"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="keywordService" />
+		<property name="targetMethod" value="deleteUnConnectedUnBannedKeywords" />
+	</bean>	
+	
+	<bean id="cronTriggerKeywordClean"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="keywordClean" />
+		<property name="cronExpression" value="${keyword.clean.interval}" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="ticketClean" />
+				<ref bean="keywordClean" />
+			</list>
+		</property>
+
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerTicketClean" />
+				<ref bean="cronTriggerKeywordClean" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
