@@ -23,7 +23,7 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
 app.run(['$rootScope', '$location', '$http', '$cookieStore', 'UserService', 'Base64', function ($rootScope, $location, $http, $cookieStore, UserService, Base64) {
         $rootScope.application = "admin";
         $rootScope.errorMessage = "";
-        $rootScope.webApiPath = '/zavrsni_radovi/webapi/';
+        $rootScope.webApiPath = '/e_theses/webapi/';
         // LOGOUT
         $rootScope.logout = function () {
             window.location = "../";

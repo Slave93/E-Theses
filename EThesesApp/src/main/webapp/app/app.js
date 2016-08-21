@@ -49,7 +49,7 @@ app.run(['$rootScope', '$location', '$http', '$cookieStore', 'UserService', 'Stu
         $rootScope.loggedIn = false;
         $rootScope.errorMessage = "";
 
-        $rootScope.webApiPath = '/zavrsni_radovi/webapi/';
+        $rootScope.webApiPath = '/e_theses/webapi/';
         //global search expression
         $rootScope.expression = "";
 

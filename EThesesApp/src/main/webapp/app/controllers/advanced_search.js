@@ -179,7 +179,7 @@ app.controller('AdvancedSearchController', ['$scope', '$rootScope', '$routeParam
         };
 
         $scope.download = function (thesisId) {
-            var path = '/zavrsni_radovi/webapi/theses/' + thesisId + '/download';
+            var path = '/e_theses/webapi/theses/' + thesisId + '/download';
             window.open(path, '_blank', '');
         };
 
