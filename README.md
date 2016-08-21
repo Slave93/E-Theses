@@ -1,5 +1,5 @@
 # Application specification
-E- Theses is a platform for the theses management.
+E- Theses is a platform for theses management.
 There are two types of users, administrators and ordinary users(usually students).
 Administrators have full control over all system entities(user profiles, theses, comments, tags, fields of study...),
 while ordinary users have control only over their profiles.
